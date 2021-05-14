@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".UploadPortfolio">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="3"
+        android:layout_margin="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/btndiscardport"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/backbtn"
+            android:layout_margin="10dp"/>
+        <ImageButton
+            android:id="@+id/btnpick"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/postbtn" />
+        <ImageButton
+            android:id="@+id/btnuploadport"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/postbtn"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingpost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/recyclerview"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/medium"
+        android:visibility="invisible"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+</RelativeLayout>

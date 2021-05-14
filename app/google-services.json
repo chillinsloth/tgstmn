@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "831815627177",
+    "project_id": "ydkw01",
+    "storage_bucket": "ydkw01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831815627177:android:e159445fcdf02554cad4b8",
+        "android_client_info": {
+          "package_name": "umn.ac.id.ydkw01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831815627177-gvirfh330h2t116k3en3kincd4r3oiud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAipAGqdSdAPSdcY7txcuxeQmSll8aOUFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831815627177-gvirfh330h2t116k3en3kincd4r3oiud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
