@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SigninActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
@@ -35,10 +36,6 @@ public class SigninActivity extends AppCompatActivity {
         btnTSignup = findViewById(R.id.createacc);
         fAuth = FirebaseAuth.getInstance();
 
-//        if(fAuth.getCurrentUser() != null){
-//            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-//            finish();
-//        }
 
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,5 +82,16 @@ public class SigninActivity extends AppCompatActivity {
                 startActivity(new Intent(SigninActivity.this, SignupActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = fAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
     }
 }

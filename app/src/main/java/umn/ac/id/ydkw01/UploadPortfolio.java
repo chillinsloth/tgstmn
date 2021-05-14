@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,7 +51,8 @@ public class UploadPortfolio extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseStorage fstorage;
-    CollectionReference reference;
+    FirebaseUser user;
+    DocumentReference reference;
     String userID;
     RecyclerView recyclerView;
     List<CustomModel> portoList;
@@ -73,7 +75,8 @@ public class UploadPortfolio extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         fstorage = FirebaseStorage.getInstance();
-        reference = fStore.collection("users");
+        user = fAuth.getCurrentUser();
+        reference = fStore.collection("users").document(user.getUid());
 
         recyclerView = findViewById(R.id.recyclerview);
         portoList = new ArrayList<>();
@@ -172,11 +175,11 @@ public class UploadPortfolio extends AppCompatActivity {
             final StorageReference storageReference = fstorage.getReference();
             for (int i = 0; i < portoList.size(); i++) {
                 final int finalI = i;
-                storageReference.child("userData/").child(portoList.get(i).getPortoName()).putFile(portoList.get(i).getPortoURI()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                storageReference.child("users/"+user.getUid()+"/"+"portfolios/").child(portoList.get(i).getPortoName()).putFile(portoList.get(i).getPortoURI()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()){
-                            storageReference.child("userData/").child(portoList.get(finalI).getPortoName()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            storageReference.child("users/"+user.getUid()+"/"+"portfolios/").child(portoList.get(finalI).getPortoName()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     counter++;
@@ -184,7 +187,7 @@ public class UploadPortfolio extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         savedImagesUri.add(task.getResult().toString());
                                     }else{
-                                        storageReference.child("userData/").child(portoList.get(finalI).getPortoName()).delete();
+                                        storageReference.child("users/"+user.getUid()+"/"+"portfolios/").child(portoList.get(finalI).getPortoName()).delete();
                                         Toast.makeText(UploadPortfolio.this, "Couldn't save "+portoList.get(finalI).getPortoName(), Toast.LENGTH_SHORT).show();
                                     }
                                     if (counter == portoList.size()){
@@ -214,12 +217,14 @@ public class UploadPortfolio extends AppCompatActivity {
         /*for (int i = 0; i < savedImagesUri.size(); i++) {
             dataMap.put("image" + i, savedImagesUri.get(i));
         }*/
-        reference.add(dataMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        reference.update(dataMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
+            public void onSuccess(Void aVoid) {
                 progressDialog.dismiss();
                 coreHelper.createAlert("Success", "Images uploaded and saved successfully!", "OK", "", null, null, null);
-
+                Intent i = new Intent(getApplicationContext(), PortfolioActivity.class);
+                i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

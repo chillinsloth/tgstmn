@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,11 +51,11 @@ public class SignupActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        if(fAuth.getCurrentUser() != null){
-            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-        }
+//        if(fAuth.getCurrentUser() != null){
+//            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+//            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(i);
+//        }
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,4 +131,16 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = fAuth.getCurrentUser();
+//        if(currentUser != null){
+//            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+//            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(i);
+//        }
+//    }
 }

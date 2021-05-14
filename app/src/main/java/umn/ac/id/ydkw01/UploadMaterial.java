@@ -92,7 +92,7 @@ public class UploadMaterial extends AppCompatActivity {
 //        String search = titlevid.getText().toString().toLowerCase();
         if (videoUri != null || !TextUtils.isEmpty(videoTitle)){
             loadingupvid.setVisibility(View.VISIBLE);
-            final StorageReference reference = storageReference.child("users" + user.getUid() + System.currentTimeMillis() + "." + getExt(videoUri));
+            final StorageReference reference = storageReference.child("users/" + user.getUid() + "/" + System.currentTimeMillis() + "." + getExt(videoUri));
             uploadTask = reference.putFile(videoUri);
 
             Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
