@@ -4,23 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:padding="10dp"
     tools:context=".UploadPortfolio">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:horizontalSpacing="2dp"-->
+<!--        android:verticalSpacing="2dp"-->
+<!--        android:numColumns="3"-->
+<!--        android:layout_margin="2dp"/>-->
+    
+    <ImageView
+        android:id="@+id/postpreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/loadingpost"/>
+    
+    <ProgressBar
+        android:id="@+id/loadingpost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="2dp"
-        android:verticalSpacing="2dp"
-        android:numColumns="3"
-        android:layout_margin="2dp"/>
-
-    <LinearLayout
+        android:layout_margin="20dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/medium"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+    
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true">
 
@@ -29,29 +44,25 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/backbtn"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
         <ImageButton
             android:id="@+id/btnpick"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/postbtn" />
+            android:background="@drawable/postbtn"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
         <ImageButton
             android:id="@+id/btnuploadport"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/postbtn"
-            android:layout_margin="10dp"/>
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/loadingpost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_below="@+id/recyclerview"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/medium"
-        android:visibility="invisible"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
 </RelativeLayout>

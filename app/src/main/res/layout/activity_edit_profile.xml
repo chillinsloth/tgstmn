@@ -90,7 +90,8 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:inputType="number"/>
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton

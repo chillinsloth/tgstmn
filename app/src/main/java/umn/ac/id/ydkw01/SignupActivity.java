@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
                 if(TextUtils.isEmpty(nis)){
-                    mEmail.setError("NIS is Required");
+                    mNis.setError("NIS is Required");
                     return;
                 }
 
