@@ -93,8 +93,8 @@ public class UploadPortfolio extends AppCompatActivity {
         fstorage = FirebaseStorage.getInstance();
         user = fAuth.getCurrentUser();
         userID = user.getUid();
-        reference = fStore.collection("users/").document(userID);
-        docref = fStore.collection("portfolios/").document(userID);
+        reference = fStore.collection("users").document(userID);
+//        docref = fStore.collection("portfolios/").document(userID);
         dbref = FirebaseDatabase.getInstance().getReference(userID).child("portfolios");
 
 //        recyclerView = findViewById(R.id.recyclerview);
@@ -169,7 +169,7 @@ public class UploadPortfolio extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
-                            Log.i("seeThisUri", downloadUri.toString());// This is the one you should store
+
                             Map<String,Object> imageUrl = new HashMap<>();
                             imageUrl.put("PortfolioUrl", downloadUri.toString());
                             reference.set(imageUrl, SetOptions.merge());

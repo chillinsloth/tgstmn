@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="3dp"
     android:padding="2dp"
     android:elevation="3dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/singleport"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/profilemaleimg" />
-        <TextView
-            android:id="@+id/titleport"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/titleport"
-            android:layout_below="@+id/singleport"
-            android:layout_centerHorizontal="true"/>
+<!--        <TextView-->
+<!--            android:id="@+id/uploadername"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:text="@string/name"-->
+<!--            android:layout_below="@+id/singleport"-->
+<!--            android:layout_alignParentRight="true"/>-->
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

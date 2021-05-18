@@ -52,7 +52,7 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Imag
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleport = itemView.findViewById(R.id.titleport);
+            titleport = itemView.findViewById(R.id.uploadername);
         }
     }
 
