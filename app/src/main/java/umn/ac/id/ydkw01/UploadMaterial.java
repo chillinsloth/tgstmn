@@ -5,17 +5,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -35,9 +40,11 @@ import com.google.firebase.storage.UploadTask;
 
 
 public class UploadMaterial extends AppCompatActivity {
-    public static final int PICK_VIDEO = 1;
+    private static final int READ_PERMISSION_CODE = 1;
+    private static final int PICK_VIDEO_CODE = 2;
+
     VideoView preupvid;
-    AppCompatButton discardvid, uploadvid;
+    ImageButton discardvid, uploadvid, pickvid;
     ProgressBar loadingupvid;
     EditText titlevid;
     private Uri videoUri;
@@ -64,6 +71,7 @@ public class UploadMaterial extends AppCompatActivity {
         preupvid = findViewById(R.id.preupvid);
         discardvid = findViewById(R.id.discardvid);
         uploadvid = findViewById(R.id.uploadvid);
+        pickvid = findViewById(R.id.pickvid);
         loadingupvid = findViewById(R.id.loadingupvid);
         titlevid = findViewById(R.id.titlevid);
         mediaController = new MediaController(this);
@@ -77,6 +85,13 @@ public class UploadMaterial extends AppCompatActivity {
             }
         });
 
+        pickvid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyPermissionAndPickVideo();
+            }
+        });
+
         discardvid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +100,53 @@ public class UploadMaterial extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void verifyPermissionAndPickVideo() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                pickVideo();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
+            }
+        } else {
+            pickVideo();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case READ_PERMISSION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    pickVideo();
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    private void pickVideo(){
+        Intent i = new Intent();
+        i.setType("video/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(i, PICK_VIDEO_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_VIDEO_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
+            videoUri = data.getData();
+            preupvid.setVideoURI(videoUri);
+        }
+    }
+
+    private String getExt(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     private void UploadVideo() {
@@ -121,29 +183,7 @@ public class UploadMaterial extends AppCompatActivity {
                 }
             });
         }else {
-            Toast.makeText(this, "Title Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Video and Title Required", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_VIDEO || resultCode == RESULT_OK || data != null || data.getData() != null){
-            videoUri = data.getData();
-            preupvid.setVideoURI(videoUri);
-        }
-    }
-
-    public void pickVideo(View view){
-        Intent i = new Intent();
-        i.setType("video/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(i, PICK_VIDEO);
-    }
-
-    private String getExt(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 }

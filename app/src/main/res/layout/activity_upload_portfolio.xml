@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:background="@drawable/ic_bg"
     tools:context=".UploadPortfolio">
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->
@@ -15,12 +16,33 @@
 <!--        android:verticalSpacing="2dp"-->
 <!--        android:numColumns="3"-->
 <!--        android:layout_margin="2dp"/>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btndiscardport"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btnbacknew"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+        <ImageButton
+            android:id="@+id/btnuploadport"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btnsend"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     
     <ImageView
         android:id="@+id/postpreview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/loadingpost"/>
+        android:layout_height="300dp"
+        android:layout_centerVertical="true"
+        android:background="@color/light"/>
     
     <ProgressBar
         android:id="@+id/loadingpost"
@@ -30,39 +52,23 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/medium"
         android:visibility="invisible"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/postpreview"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true">
 
         <ImageButton
-            android:id="@+id/btndiscardport"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/backbtn"
-            android:layout_margin="10dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"/>
-        <ImageButton
             android:id="@+id/btnpick"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/postbtn"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
-        <ImageButton
-            android:id="@+id/btnuploadport"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/postbtn"
-            android:layout_margin="10dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

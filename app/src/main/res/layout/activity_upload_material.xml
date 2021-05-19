@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
+    android:background="@drawable/ic_bg"
+    android:gravity="center"
     tools:context=".UploadMaterial">
 
     <VideoView
@@ -37,26 +39,23 @@
         android:gravity="center"
         android:layout_marginTop="20dp">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/discardvid"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/backbtn"
+            android:background="@drawable/btnbacknew"
             android:layout_margin="10dp"/>
-        <ImageView
+        <ImageButton
+            android:id="@+id/pickvid"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/postbtn"
-            android:onClick="pickVideo"/>
-        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/postbtn" />
+        <ImageButton
             android:id="@+id/uploadvid"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btnborder"
-            android:text="@string/btnupload"
-            android:textAlignment="center"
-            android:textSize="15sp"
-            android:layout_margin="10dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/btnsend" />
     </LinearLayout>
 
     <ProgressBar

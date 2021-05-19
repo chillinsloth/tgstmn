@@ -12,7 +12,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:background="@drawable/backbtn"/>
+        android:background="@drawable/btnbacknew"/>
 
     <LinearLayout
         android:layout_width="match_parent"

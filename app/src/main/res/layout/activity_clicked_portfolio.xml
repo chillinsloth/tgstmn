@@ -19,7 +19,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/backbtn"/>
+            android:background="@drawable/btnbacknew"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnprofile"
@@ -159,21 +159,44 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/btnpost"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_above="@id/botnav"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/postbtn"
-            android:layout_marginBottom="10dp"/>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+
+        <RelativeLayout
+            android:id="@+id/botnav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/botnav"
-            app:menu="@menu/menunav"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true">
+            <ImageButton
+                android:id="@+id/btnmaterial"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_toLeftOf="@+id/btnpost"
+                android:background="@drawable/btnmaterinew"/>
+            <ImageButton
+                android:id="@+id/btnpost"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/postbtn" />
+            <ImageButton
+                android:id="@+id/btnportfolio"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_toRightOf="@+id/btnpost"
+                android:background="@drawable/btnportnew"/>
+        </RelativeLayout>
+
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/botnav"-->
+<!--            app:menu="@menu/menunav"-->
+<!--            android:layout_alignParentBottom="true"/>-->
     </RelativeLayout>
 
 </LinearLayout>

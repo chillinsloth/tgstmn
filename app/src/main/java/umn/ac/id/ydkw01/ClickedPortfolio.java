@@ -30,9 +30,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ClickedPortfolio extends AppCompatActivity {
     TextView pfullname, profilenis, namepost, nispost;
     CircleImageView btnProfile, imgpostprof;
-    ImageView btnpost, portimgpost, btnlike, btncomment, btnshare;
-    ImageButton btnback;
-    BottomNavigationView bottomNavigationView;
+    ImageView portimgpost, btnlike, btncomment, btnshare;
+    ImageButton btnback, btnmaterial, btnportfolio, btnpost;
+//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -42,31 +42,30 @@ public class ClickedPortfolio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clicked_portfolio);
+        getSupportActionBar().hide();
 
-        bottomNavigationView = findViewById(R.id.botnav);
-        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.btnmaterial:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-//                    case R.id.btnpost:
-//                        startActivity(new Intent(getApplicationContext(), UploadMaterial.class));
+//        bottomNavigationView = findViewById(R.id.botnav);
+//        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.btnmaterial:
+//                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
 //                        overridePendingTransition(0,0);
 //                        return true;
-                    case R.id.btnportfolio:
-                        return true;
-                }
-                return false;
-            }
-        });
+//                    case R.id.btnportfolio:
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 
         btnProfile = findViewById(R.id.btnprofile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
+        btnmaterial = findViewById(R.id.btnmaterial);
+        btnportfolio = findViewById(R.id.btnportfolio);
         btnpost = findViewById(R.id.btnpost);
         btnback = findViewById(R.id.btnback);
         fAuth = FirebaseAuth.getInstance();
@@ -98,19 +97,33 @@ public class ClickedPortfolio extends AppCompatActivity {
             }
         });
 
-        StorageReference dprofRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-        dprofRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//        StorageReference dprofRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
+//        dprofRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).into(imgpostprof);
+//            }
+//        });
+//        DocumentReference document2Reference = fStore.collection("users").document(userID);
+//        document2Reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+//                namepost.setText(documentSnapshot.getString("Fullname"));
+//                nispost.setText(documentSnapshot.getString("NIS"));
+//            }
+//        });
+
+        btnmaterial.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(imgpostprof);
+            public void onClick(View v) {
+                startActivity(new Intent(ClickedPortfolio.this, HomeActivity.class));
             }
         });
-        DocumentReference document2Reference = fStore.collection("users").document(userID);
-        document2Reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+
+        btnportfolio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                namepost.setText(documentSnapshot.getString("Fullname"));
-                nispost.setText(documentSnapshot.getString("NIS"));
+            public void onClick(View v) {
+                startActivity(new Intent(ClickedPortfolio.this, PortfolioActivity.class));
             }
         });
 
@@ -136,6 +149,24 @@ public class ClickedPortfolio extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+//        getIncomingIntent();
     }
+
+//    private void getIncomingIntent(){
+//        if(getIntent().hasExtra("PortfolioUrl") && getIntent().hasExtra("Fullname") && getIntent().hasExtra("NIS")){
+//            String imageurl = getIntent().getStringExtra("PortfolioUrl");
+//            String uploadername = getIntent().getStringExtra("Fullname");
+//            String uploadernis = getIntent().getStringExtra("NIS");
+//
+//            setImage(imageurl, uploadername, uploadernis);
+//        }
+//    }
+//
+//    private void setImage(String imageurl, String uploadername, String uploadernis){
+//        namepost.setText(uploadername);
+//        nispost.setText(uploadernis);
+//        Picasso.get().load(imageurl).into(imgpostprof);
+//    }
 
 }

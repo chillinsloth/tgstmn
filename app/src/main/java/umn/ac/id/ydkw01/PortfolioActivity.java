@@ -3,32 +3,28 @@ package umn.ac.id.ydkw01;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.SnapshotParser;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,9 +46,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PortfolioActivity extends AppCompatActivity {
-    public static final String TAG = "TAG";
-
+public class PortfolioActivity extends AppCompatActivity implements FirestoreAdapter.OnClickedPortfolio {
     TextView pfullname, profilenis;
     CircleImageView btnProfile;
     ImageView btnpost;
@@ -62,12 +57,7 @@ public class PortfolioActivity extends AppCompatActivity {
     StorageReference storageReference;
     DocumentReference reference;
     RecyclerView recyclerView;
-    ArrayList<PostImg> list;
-//    List<CustomModel> portoList;
-//    PortfolioAdapter adapter;
-
-//    MyAdapter adapter;
-    private FirestoreRecyclerAdapter adapter;
+    private FirestoreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +75,6 @@ public class PortfolioActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-//                    case R.id.btnpost:
-//                        startActivity(new Intent(getApplicationContext(), UploadMaterial.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
                     case R.id.btnportfolio:
                         return true;
                 }
@@ -100,21 +86,17 @@ public class PortfolioActivity extends AppCompatActivity {
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnpost = findViewById(R.id.btnpost);
+        recyclerView = findViewById(R.id.recyclerview);
+
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         reference = fStore.collection("users").document(userID);
         Query query = FirebaseFirestore.getInstance().collection("users");
-
         storageReference = FirebaseStorage.getInstance().getReference();
-        recyclerView = findViewById(R.id.recyclerview);
-        list = new ArrayList<>();
-//        adapter = new MyAdapter(this, list);
-//        portoList = new ArrayList<>();
-//        adapter = new PortfolioAdapter(this, portoList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setInitialLoadSizeHint(9).setPageSize(3)
+                .build();
 
         StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
         dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -146,65 +128,25 @@ public class PortfolioActivity extends AppCompatActivity {
             }
         });
 
-//        reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot doc = task.getResult();
-//                    String imageUrl = (String) doc.get("PortfolioUrl");
-//                    if (doc.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + doc.get("PortfolioUrl"));
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        FirestorePagingOptions<PortfolioModel> options = new FirestorePagingOptions.Builder<PortfolioModel>()
+                .setLifecycleOwner(this)
+                .setQuery(query, config, PortfolioModel.class)
+                .build();
 
-        FirestoreRecyclerOptions<PortfolioModel> options = new FirestoreRecyclerOptions.Builder<PortfolioModel>().setQuery(query, PortfolioModel.class).build();
-
-        adapter = new FirestoreRecyclerAdapter<PortfolioModel, PortfoliosViewHolder>(options) {
-            @NonNull
-            @Override
-            public PortfoliosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, parent, false);
-                return new PortfoliosViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull PortfoliosViewHolder holder, int position, @NonNull PortfolioModel model) {
-                Picasso.get().load(model.getPortfolioUrl()).into(holder.singleport);
-//                holder.uploadername.setText(model.getFullname());
-            }
-        };
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new FirestoreAdapter(options, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 
-    private class PortfoliosViewHolder extends  RecyclerView.ViewHolder{
-        ImageView singleport;
-//        TextView uploadername;
-
-        public PortfoliosViewHolder(@NonNull View itemView){
-            super(itemView);
-
-            singleport = itemView.findViewById(R.id.singleport);
-//            uploadername = itemView.findViewById(R.id.uploadername);
-        }
-    }
-
     @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
+    public void onItemClick(DocumentSnapshot snapshot, int position) {
+        Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
+        Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
+        intent.putExtra("Fullname", snapshot.getDocumentReference("Fullname").getId());
+        intent.putExtra("NIS", snapshot.getDocumentReference("NIS").getId());
+        intent.putExtra("PortfolioUrl", snapshot.getDocumentReference("PortfolioUrl").getId());
+        startActivity(intent);
     }
 }

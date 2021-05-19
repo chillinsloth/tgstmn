@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:padding="2dp"
@@ -11,10 +11,10 @@
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/singleport"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@drawable/profilemaleimg" />
+            android:background="@color/light" />
 <!--        <TextView-->
 <!--            android:id="@+id/uploadername"-->
 <!--            android:layout_width="wrap_content"-->
