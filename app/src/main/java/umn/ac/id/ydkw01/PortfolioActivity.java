@@ -46,7 +46,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PortfolioActivity extends AppCompatActivity implements FirestoreAdapter.OnClickedPortfolio {
+import static android.media.CamcorderProfile.get;
+
+public class PortfolioActivity extends AppCompatActivity implements FirestoreAdapter.OnClickedPortfolio{
     TextView pfullname, profilenis;
     CircleImageView btnProfile;
     ImageView btnpost;
@@ -58,6 +60,7 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
     DocumentReference reference;
     RecyclerView recyclerView;
     private FirestoreAdapter adapter;
+//    private FirestoreAdapter.OnClickedPortfolio onClickedPortfolio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +97,9 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         reference = fStore.collection("users").document(userID);
         Query query = FirebaseFirestore.getInstance().collection("users");
         storageReference = FirebaseStorage.getInstance().getReference();
+
         PagedList.Config config = new PagedList.Config.Builder()
-                .setInitialLoadSizeHint(9).setPageSize(3)
+                .setInitialLoadSizeHint(9).setPageSize(9)
                 .build();
 
         StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
@@ -132,7 +136,8 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
                 .setLifecycleOwner(this)
                 .setQuery(query, config, PortfolioModel.class)
                 .build();
-
+        
+//        setOnclickListener();
         adapter = new FirestoreAdapter(options, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -140,13 +145,23 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         recyclerView.setAdapter(adapter);
     }
 
+//    private void setOnclickListener() {
+//        onClickedPortfolio = new FirestoreAdapter.OnClickedPortfolio() {
+//            @Override
+//            public void onClick(View v, int position) {
+//                Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
+//                intent.putExtra("PortfolioUrl", (findViewById(R.id.singleport)).)
+//            }
+//        }
+//    }
+
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
-        Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
-        intent.putExtra("Fullname", snapshot.getDocumentReference("Fullname").getId());
-        intent.putExtra("NIS", snapshot.getDocumentReference("NIS").getId());
-        intent.putExtra("PortfolioUrl", snapshot.getDocumentReference("PortfolioUrl").getId());
+        Intent intent = new Intent(PortfolioActivity.this, ClickedPortfolio.class);
+        intent.putExtra("Fullname", snapshot.getString("Fullname"));
+        intent.putExtra("NIS", snapshot.getString("NIS"));
+        intent.putExtra("PortfolioUrl", snapshot.getString("PortfolioUrl"));
         startActivity(intent);
     }
 }

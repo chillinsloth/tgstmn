@@ -34,9 +34,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class UploadMaterial extends AppCompatActivity {
@@ -52,8 +56,9 @@ public class UploadMaterial extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseUser user;
-    StorageReference storageReference;
-    Member member;
+    String userID;
+    StorageReference fstorage;
+    DocumentReference reference;
     UploadTask uploadTask;
 
     @Override
@@ -62,11 +67,12 @@ public class UploadMaterial extends AppCompatActivity {
         setContentView(R.layout.activity_upload_material);
         getSupportActionBar().hide();
 
-        member = new Member();
-        storageReference = FirebaseStorage.getInstance().getReference("users");
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
+        userID = user.getUid();
+        reference = fStore.collection("users").document(userID);
+        fstorage = FirebaseStorage.getInstance().getReference("users");
 
         preupvid = findViewById(R.id.preupvid);
         discardvid = findViewById(R.id.discardvid);
@@ -154,29 +160,38 @@ public class UploadMaterial extends AppCompatActivity {
 //        String search = titlevid.getText().toString().toLowerCase();
         if (videoUri != null || !TextUtils.isEmpty(videoTitle)){
             loadingupvid.setVisibility(View.VISIBLE);
-            final StorageReference reference = storageReference.child("users/" + user.getUid() + "/" + "Materials" + System.currentTimeMillis() + "." + getExt(videoUri));
-            uploadTask = reference.putFile(videoUri);
+            final StorageReference storageReference = fstorage.child(user.getUid() + "/" + "Materials" + System.currentTimeMillis() + "." + getExt(videoUri));
+            uploadTask = storageReference.putFile(videoUri);
 
-            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                     if (!task.isSuccessful()){
                         throw task.getException();
                     }
-                    return reference.getDownloadUrl();
+                    return storageReference.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
+
                         loadingupvid.setVisibility(View.INVISIBLE);
                         Toast.makeText(UploadMaterial.this, "Video Uploaded", Toast.LENGTH_SHORT).show();
 
-                        member.setTitle(videoTitle);
-                        member.setVideouri(downloadUri.toString());
+                        Map<String,Object> vidurl = new HashMap<>();
+                        vidurl.put("VideoTitle", videoTitle);
+                        vidurl.put("MaterialUrl", downloadUri.toString());
+                        reference.set(vidurl, SetOptions.merge());
+//                        member.setTitle(videoTitle);
+//                        member.setVideouri(downloadUri.toString());
 //                        member.getSearch(search);
-                        Task<Void> dref = fStore.collection("users").document(user.getUid()).set(member);
+//                        Task<Void> dref = fStore.collection("users").document(user.getUid()).set(member);
+
+                        Intent intent = new Intent(getApplicationContext(), PortfolioActivity.class);
+                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }else {
                         Toast.makeText(UploadMaterial.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
                     }

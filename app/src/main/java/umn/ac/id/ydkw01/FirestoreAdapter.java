@@ -76,10 +76,12 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
         @Override
         public void onClick(View v) {
             onClickedPortfolio.onItemClick(getItem(getAdapterPosition()), getAdapterPosition());
+//            onClickedPortfolio.onClick(v, getAdapterPosition());
         }
     }
 
     public interface OnClickedPortfolio{
         void onItemClick(DocumentSnapshot snapshot, int position);
+//        void onClick(View v, int position);
     }
 }

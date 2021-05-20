@@ -86,18 +86,17 @@
                 android:padding="10dp"
                 android:background="@color/red">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgpostprof"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/profilemaleimg"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"/>
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/imgpostprof"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:src="@drawable/profilemaleimg"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_alignParentLeft="true"/>-->
                 <TextView
                     android:id="@+id/namepost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/imgpostprof"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:text="@string/name"
@@ -108,7 +107,6 @@
                     android:id="@+id/nispost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/imgpostprof"
                     android:layout_below="@id/namepost"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -159,29 +157,27 @@
 
         </RelativeLayout>
 
-
-
         <RelativeLayout
             android:id="@+id/botnav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
-            <ImageButton
+            <ImageView
                 android:id="@+id/btnmaterial"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="20dp"
                 android:layout_toLeftOf="@+id/btnpost"
-                android:background="@drawable/btnmaterinew"/>
-            <ImageButton
+                android:background="@drawable/selector"/>
+            <ImageView
                 android:id="@+id/btnpost"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/postbtn" />
-            <ImageButton
+                android:background="@drawable/postbtn"/>
+            <ImageView
                 android:id="@+id/btnportfolio"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

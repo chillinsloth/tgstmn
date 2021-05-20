@@ -68,8 +68,14 @@
         android:layout_marginTop="5dp">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:horizontalSpacing="2dp"
+            android:verticalSpacing="2dp"
+            android:layout_above="@id/botnav"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <ImageView
             android:id="@+id/btnpost"
@@ -85,7 +91,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/botnav"
             app:menu="@menu/menunav"
-            android:layout_alignParentBottom="true"
-            app:itemIconTint="@drawable/selector"/>
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 </LinearLayout>

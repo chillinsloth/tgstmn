@@ -30,8 +30,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ClickedPortfolio extends AppCompatActivity {
     TextView pfullname, profilenis, namepost, nispost;
     CircleImageView btnProfile, imgpostprof;
-    ImageView portimgpost, btnlike, btncomment, btnshare;
-    ImageButton btnback, btnmaterial, btnportfolio, btnpost;
+    ImageView portimgpost, btnlike, btncomment, btnshare, btnmaterial, btnportfolio, btnpost;
+    ImageButton btnback;
 //    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -150,23 +150,25 @@ public class ClickedPortfolio extends AppCompatActivity {
             }
         });
 
-//        getIncomingIntent();
+        getIncomingIntent();
+
+
     }
 
-//    private void getIncomingIntent(){
-//        if(getIntent().hasExtra("PortfolioUrl") && getIntent().hasExtra("Fullname") && getIntent().hasExtra("NIS")){
-//            String imageurl = getIntent().getStringExtra("PortfolioUrl");
-//            String uploadername = getIntent().getStringExtra("Fullname");
-//            String uploadernis = getIntent().getStringExtra("NIS");
-//
-//            setImage(imageurl, uploadername, uploadernis);
-//        }
-//    }
-//
-//    private void setImage(String imageurl, String uploadername, String uploadernis){
-//        namepost.setText(uploadername);
-//        nispost.setText(uploadernis);
-//        Picasso.get().load(imageurl).into(imgpostprof);
-//    }
+    private void getIncomingIntent(){
+        if(getIntent().hasExtra("PortfolioUrl")){
+            String imageurl = getIntent().getStringExtra("PortfolioUrl");
+            String uploadername = getIntent().getStringExtra("Fullname");
+            String uploadernis = getIntent().getStringExtra("NIS");
+
+            setImage(imageurl, uploadername, uploadernis);
+        }
+    }
+
+    private void setImage(String imageurl, String uploadername, String uploadernis){
+        namepost.setText(uploadername);
+        nispost.setText(uploadernis);
+        Picasso.get().load(imageurl).into(imgpostprof);
+    }
 
 }
