@@ -22,7 +22,7 @@ public class MaterialAdapter extends FirestorePagingAdapter<MaterialModel, Mater
     @Override
     protected void onBindViewHolder(@NonNull MaterialViewHolder holder, int position, @NonNull MaterialModel model) {
         holder.mattitle.setText(model.getVideoTitle());
-        holder.profile_nis.setText(model.getUser_id());
+        holder.uploadername.setText(model.getFullname());
 
     }
 
@@ -57,13 +57,13 @@ public class MaterialAdapter extends FirestorePagingAdapter<MaterialModel, Mater
 
     public class MaterialViewHolder extends  RecyclerView.ViewHolder{
         TextView mattitle;
-        TextView profile_nis;
+        TextView uploadername;
 
         public MaterialViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mattitle = itemView.findViewById(R.id.mattitle);
-            profile_nis = itemView.findViewById(R.id.profile_nis);
+            uploadername = itemView.findViewById(R.id.uploadername);
         }
     }
 }

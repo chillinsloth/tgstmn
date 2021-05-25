@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClickedPortfolio extends AppCompatActivity {
     TextView pfullname, profilenis, namepost, nispost;
-    CircleImageView btnProfile, imgpostprof;
+    CircleImageView btnProfile;
     ImageView portimgpost, btnlike, btncomment, btnshare, btnmaterial, btnportfolio, btnpost;
     ImageButton btnback;
 //    BottomNavigationView bottomNavigationView;
@@ -37,6 +39,7 @@ public class ClickedPortfolio extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     StorageReference storageReference;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,6 @@ public class ClickedPortfolio extends AppCompatActivity {
 
         namepost = findViewById(R.id.namepost);
         nispost = findViewById(R.id.nispost);
-        imgpostprof = findViewById(R.id.imgpostprof);
         portimgpost = findViewById(R.id.portimgpost);
         btnlike = findViewById(R.id.btnlike);
         btncomment = findViewById(R.id.btncomment);
@@ -85,7 +87,8 @@ public class ClickedPortfolio extends AppCompatActivity {
         dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(btnProfile);
+                Glide.with(context).load(uri).into(btnProfile);
+//                Picasso.get().load(uri).into(btnProfile);
             }
         });
         DocumentReference documentReference = fStore.collection("users").document(userID);
@@ -168,7 +171,8 @@ public class ClickedPortfolio extends AppCompatActivity {
     private void setImage(String imageurl, String uploadername, String uploadernis){
         namepost.setText(uploadername);
         nispost.setText(uploadernis);
-        Picasso.get().load(imageurl).into(imgpostprof);
+        Glide.with(this).load(imageurl).into(portimgpost);
+//        Picasso.get().load(imageurl).into(portimgpost);
     }
 
 }

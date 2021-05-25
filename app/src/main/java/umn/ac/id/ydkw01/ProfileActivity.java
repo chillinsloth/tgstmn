@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     StorageReference storageReference;
+    DocumentReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +57,21 @@ public class ProfileActivity extends AppCompatActivity {
         edtbtn = findViewById(R.id.editbtn);
         btnback = findViewById(R.id.btnback);
         imgp = findViewById(R.id.imgp);
+        RequestManager manager = Glide.with(imgp);
+
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
+        reference = fStore.collection("users").document(userID);
 
-        StorageReference profRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-        profRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(imgp);
-            }
-        });
+//        StorageReference profRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
+//        profRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).into(imgp);
+//            }
+//        });
 
         edtbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +93,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference documentReference = fStore.collection("users").document(userID);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 fullname.setText(documentSnapshot.getString("Fullname"));
                 email.setText(documentSnapshot.getString("Email"));
                 nis.setText(documentSnapshot.getString("NIS"));
+                manager.load(documentSnapshot.getString("Profilepict")).into(imgp);
             }
         });
     }

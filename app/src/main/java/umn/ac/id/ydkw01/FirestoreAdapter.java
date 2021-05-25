@@ -1,5 +1,6 @@
 package umn.ac.id.ydkw01;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -28,7 +30,7 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
 
     @Override
     protected void onBindViewHolder(@NonNull PortfoliosViewHolder holder, int position, @NonNull PortfolioModel model) {
-        Picasso.get().load(model.getPortfolioUrl()).into(holder.singleport);
+        Glide.with(holder.itemView.getContext()).load(model.getPortfolioUrl()).into(holder.singleport);
 //                holder.uploadername.setText(model.getFullname());
     }
 

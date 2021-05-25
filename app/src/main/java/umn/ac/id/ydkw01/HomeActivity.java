@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     TextView pfullname, profilenis;
-    CircleImageView btnProfile;
+    CircleImageView btn_Profile;
     ImageView btnpost;
     BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
@@ -59,10 +63,6 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.btnmaterial:
                         return true;
-//                    case R.id.btnpost:
-//                        startActivity(new Intent(getApplicationContext(), UploadMaterial.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
                     case R.id.btnportfolio:
                         startActivity(new Intent(getApplicationContext(), PortfolioActivity.class));
                         overridePendingTransition(0,0);
@@ -72,11 +72,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        btnProfile = findViewById(R.id.btnprofile);
+        btn_Profile = findViewById(R.id.btn_profile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnpost = findViewById(R.id.btnpost);
         recyclerView = findViewById(R.id.recyclerview);
+        RequestManager manager = Glide.with(btn_Profile);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -89,23 +90,23 @@ public class HomeActivity extends AppCompatActivity {
                 .setInitialLoadSizeHint(3).setPageSize(3)
                 .build();
 
-        StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-        dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(btnProfile);
-            }
-        });
+//        reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot snapshot) {
+//                manager.load(snapshot.getString("Profilepict")).into(btnProfile);
+//            }
+//        });
 
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
+                manager.load(documentSnapshot.getString("Profilepict")).into(btn_Profile);
             }
         });
 
-        btnProfile.setOnClickListener(new View.OnClickListener() {
+        btn_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
@@ -126,8 +127,8 @@ public class HomeActivity extends AppCompatActivity {
 
 //        setOnclickListener();
         adapter = new MaterialAdapter(options);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }

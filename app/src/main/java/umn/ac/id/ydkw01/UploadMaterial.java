@@ -189,7 +189,7 @@ public class UploadMaterial extends AppCompatActivity {
 //                        member.getSearch(search);
 //                        Task<Void> dref = fStore.collection("users").document(user.getUid()).set(member);
 
-                        Intent intent = new Intent(getApplicationContext(), PortfolioActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else {

@@ -7,6 +7,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.SnapshotParser;
@@ -90,6 +93,7 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         profilenis = findViewById(R.id.profile_nis);
         btnpost = findViewById(R.id.btnpost);
         recyclerView = findViewById(R.id.recyclerview);
+        RequestManager manager = Glide.with(btnProfile);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -102,19 +106,12 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
                 .setInitialLoadSizeHint(9).setPageSize(9)
                 .build();
 
-        StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-        dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(btnProfile);
-            }
-        });
-
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
+                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
             }
         });
 
@@ -158,7 +155,7 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
-        Intent intent = new Intent(PortfolioActivity.this, ClickedPortfolio.class);
+        Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
         intent.putExtra("Fullname", snapshot.getString("Fullname"));
         intent.putExtra("NIS", snapshot.getString("NIS"));
         intent.putExtra("PortfolioUrl", snapshot.getString("PortfolioUrl"));

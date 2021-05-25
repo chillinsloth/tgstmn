@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -153,7 +154,8 @@ public class UploadPortfolio extends AppCompatActivity {
 
         if(requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
             imguri = data.getData();
-            Picasso.get().load(imguri).into(postpreview);
+            Glide.with(this).load(imguri).into(postpreview);
+//            Picasso.get().load(imguri).into(postpreview);
         }
     }
 

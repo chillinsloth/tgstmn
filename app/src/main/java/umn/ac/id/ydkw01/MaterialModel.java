@@ -1,25 +1,25 @@
 package umn.ac.id.ydkw01;
 
 public class MaterialModel {
-    private String user_id;
+    private String Fullname;
     private String VideoTitle;
     private String MaterialUrl;
 //    private String search;
 
     public MaterialModel(){}
 
-    private MaterialModel(String MaterialUrl, String VideoTitle, String user_id){
-        this.user_id = user_id;
+    private MaterialModel(String MaterialUrl, String VideoTitle, String Fullname){
+        this.Fullname = Fullname;
         this.VideoTitle = VideoTitle;
         this.MaterialUrl = MaterialUrl;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getFullname() {
+        return Fullname;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setFullname(String fullname) {
+        this.Fullname = fullname;
     }
 
     public String getVideoTitle() {
