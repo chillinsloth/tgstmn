@@ -22,7 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/matview">
+            android:layout_toEndOf="@+id/matview">
             <TextView
                 android:id="@+id/mattitle"
                 android:layout_width="wrap_content"
