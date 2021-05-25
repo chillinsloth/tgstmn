@@ -3,7 +3,7 @@
     package="umn.ac.id.ydkw01">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.YDKW01">
-        <activity android:name=".ClickedPortfolio"></activity>
+        <activity android:name=".ClickedMaterial"></activity>
+        <activity android:name=".ClickedPortfolio" />
         <activity android:name=".UploadPortfolio" />
         <activity android:name=".PortfolioActivity" />
         <activity android:name=".UploadMaterial" />

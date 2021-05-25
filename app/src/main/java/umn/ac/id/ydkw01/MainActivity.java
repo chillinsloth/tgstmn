@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
-    private static int SPLASH_SCREEN = 3000;
+    private static final int SPLASH_SCREEN = 2500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

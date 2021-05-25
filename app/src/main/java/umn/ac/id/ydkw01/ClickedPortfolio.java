@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,7 @@ public class ClickedPortfolio extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     StorageReference storageReference;
-    Context context;
+    DocumentReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +72,13 @@ public class ClickedPortfolio extends AppCompatActivity {
         btnportfolio = findViewById(R.id.btnportfolio);
         btnpost = findViewById(R.id.btnpost);
         btnback = findViewById(R.id.btnback);
+
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
+        reference = fStore.collection("users").document(userID);
+        RequestManager manager = Glide.with(btnProfile);
 
         namepost = findViewById(R.id.namepost);
         nispost = findViewById(R.id.nispost);
@@ -83,32 +87,24 @@ public class ClickedPortfolio extends AppCompatActivity {
         btncomment = findViewById(R.id.btncomment);
         btnshare = findViewById(R.id.btnshare);
 
-        StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-        dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(btnProfile);
+//        StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
+//        dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
 //                Picasso.get().load(uri).into(btnProfile);
-            }
-        });
-        DocumentReference documentReference = fStore.collection("users").document(userID);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            }
+//        });
+
+        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
+                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
             }
         });
 
-//        StorageReference dprofRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-//        dprofRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(imgpostprof);
-//            }
-//        });
-//        DocumentReference document2Reference = fStore.collection("users").document(userID);
-//        document2Reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
 //            @Override
 //            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
 //                namepost.setText(documentSnapshot.getString("Fullname"));
