@@ -64,7 +64,6 @@ public class EditProfile extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseUser user;
     StorageReference storageReference;
-    Context context;
     Uri imguri;
     DocumentReference reference;
     String userID;
@@ -95,14 +94,6 @@ public class EditProfile extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         reference = fStore.collection("users").document(userID);
 
-//        StorageReference profRef = storageReference.child("users/"+user.getUid()+"/profile pict");
-//        profRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(edtprofileimg);
-//            }
-//        });
-
         reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot snapshot) {
@@ -132,7 +123,6 @@ public class EditProfile extends AppCompatActivity {
                 user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-//                        DocumentReference docref = fStore.collection("users").document(user.getUid());
                         Map<String,Object> edited = new HashMap<>();
                         edited.put("Email", email);
                         edited.put("Fullname", edtname.getText().toString());
@@ -200,8 +190,6 @@ public class EditProfile extends AppCompatActivity {
 
     private void pickImage() {
         Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.setType("image/*");
         startActivityForResult(openGallery, PICK_IMAGE_REQUEST_CODE);
     }
 
@@ -211,7 +199,6 @@ public class EditProfile extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
             imguri = data.getData();
             Glide.with(this).load(imguri).into(edtprofileimg);
-//            Picasso.get().load(imguri).into(postpreview);
         }
     }
 
@@ -262,35 +249,4 @@ public class EditProfile extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 1000){
-//            if (resultCode == Activity.RESULT_OK){
-//                Uri imageUri = data.getData();
-//                uploadProfilepicture(imageUri);
-//            }
-//        }
-//    }
-
-//    private void uploadProfilepicture(Uri imageUri) {
-//        StorageReference fileref = storageReference.child("users/"+user.getUid()+"/profile pict");
-//        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-////                        Picasso.get().load(uri).into(edtprofileimg);
-//                    }
-//                });
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getApplicationContext(), "Failed Uploading", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

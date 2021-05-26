@@ -4,24 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -32,15 +27,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     TextView pfullname, profilenis;
     CircleImageView btn_Profile;
-    ImageView btnpost;
-    BottomNavigationView bottomNavigationView;
+    ImageView btnpost, btnportfolio;
+//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -55,27 +49,28 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
 
-        bottomNavigationView = findViewById(R.id.botnav);
-        bottomNavigationView.setSelectedItemId(R.id.btnmaterial);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.btnmaterial:
-                        return true;
-                    case R.id.btnportfolio:
-                        startActivity(new Intent(getApplicationContext(), PortfolioActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
-            }
-        });
+//        bottomNavigationView = findViewById(R.id.bot_nav);
+//        bottomNavigationView.setSelectedItemId(R.id.btnmaterial);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.btnmaterial:
+//                        return true;
+//                    case R.id.btnportfolio:
+//                        startActivity(new Intent(getApplicationContext(), PortfolioActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 
         btn_Profile = findViewById(R.id.btn_profile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnpost = findViewById(R.id.btnpost);
+        btnportfolio = findViewById(R.id.btnportfolio);
         recyclerView = findViewById(R.id.recyclerview);
         RequestManager manager = Glide.with(btn_Profile);
 
@@ -87,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         Query query = FirebaseFirestore.getInstance().collection("users");
 
         PagedList.Config config = new PagedList.Config.Builder()
-                .setInitialLoadSizeHint(3).setPageSize(3)
+                .setInitialLoadSizeHint(2).setPageSize(2)
                 .build();
 
 //        reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -117,6 +112,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, UploadMaterial.class));
+            }
+        });
+
+        btnportfolio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, PortfolioActivity.class));
             }
         });
 

@@ -7,30 +7,17 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.firebase.ui.firestore.SnapshotParser;
-import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,11 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,9 +35,9 @@ import static android.media.CamcorderProfile.get;
 
 public class PortfolioActivity extends AppCompatActivity implements FirestoreAdapter.OnClickedPortfolio{
     TextView pfullname, profilenis;
-    CircleImageView btnProfile;
-    ImageView btnpost;
-    BottomNavigationView bottomNavigationView;
+    CircleImageView btn_Profile;
+    ImageView btnpost, btnmaterial;
+//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -71,29 +53,30 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         setContentView(R.layout.activity_portfolio);
         getSupportActionBar().hide();
 
-        bottomNavigationView = findViewById(R.id.botnav);
-        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.btnmaterial:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.btnportfolio:
-                        return true;
-                }
-                return false;
-            }
-        });
+//        bottomNavigationView = findViewById(R.id.bot_nav);
+//        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.btnmaterial:
+//                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
+//                    case R.id.btnportfolio:
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 
-        btnProfile = findViewById(R.id.btnprofile);
+        btn_Profile = findViewById(R.id.btn_profile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnpost = findViewById(R.id.btnpost);
+        btnmaterial = findViewById(R.id.btnmaterial);
         recyclerView = findViewById(R.id.recyclerview);
-        RequestManager manager = Glide.with(btnProfile);
+        RequestManager manager = Glide.with(btn_Profile);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -111,11 +94,11 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
-                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
+                manager.load(documentSnapshot.getString("Profilepict")).into(btn_Profile);
             }
         });
 
-        btnProfile.setOnClickListener(new View.OnClickListener() {
+        btn_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PortfolioActivity.this, ProfileActivity.class));
@@ -126,6 +109,13 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PortfolioActivity.this, UploadPortfolio.class));
+            }
+        });
+
+        btnmaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PortfolioActivity.this, HomeActivity.class));
             }
         });
 

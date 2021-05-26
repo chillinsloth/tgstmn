@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_centerVertical="true"
-        android:background="@color/light"/>
+        android:background="@color/gray"/>
     
     <ProgressBar
         android:id="@+id/loadingpost"
@@ -53,9 +53,9 @@
 
         <ImageButton
             android:id="@+id/btnpick"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/postbtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btnuploadnew"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>

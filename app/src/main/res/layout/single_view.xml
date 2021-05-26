@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:background="@color/light" />
+            android:background="@color/gray" />
 <!--        <TextView-->
 <!--            android:id="@+id/uploadername"-->
 <!--            android:layout_width="wrap_content"-->
