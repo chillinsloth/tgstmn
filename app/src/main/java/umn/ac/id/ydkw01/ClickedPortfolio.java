@@ -65,7 +65,7 @@ public class ClickedPortfolio extends AppCompatActivity {
 //            }
 //        });
 
-        btnProfile = findViewById(R.id.btnprofile);
+//        btnProfile = findViewById(R.id.btnprofile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnmaterial = findViewById(R.id.btnmaterial);
@@ -78,7 +78,7 @@ public class ClickedPortfolio extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
         reference = fStore.collection("users").document(userID);
-        RequestManager manager = Glide.with(btnProfile);
+//        RequestManager manager = Glide.with(btnProfile);
 
         namepost = findViewById(R.id.namepost);
         nispost = findViewById(R.id.nispost);
@@ -87,30 +87,14 @@ public class ClickedPortfolio extends AppCompatActivity {
         btncomment = findViewById(R.id.btncomment);
         btnshare = findViewById(R.id.btnshare);
 
-//        StorageReference dprofRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-//        dprofRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(btnProfile);
-//            }
-//        });
-
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
-                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
+//                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
             }
         });
-
-//        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-//                namepost.setText(documentSnapshot.getString("Fullname"));
-//                nispost.setText(documentSnapshot.getString("NIS"));
-//            }
-//        });
 
         btnmaterial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,12 +110,12 @@ public class ClickedPortfolio extends AppCompatActivity {
             }
         });
 
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ClickedPortfolio.this, ProfileActivity.class));
-            }
-        });
+//        btnProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(ClickedPortfolio.this, ProfileActivity.class));
+//            }
+//        });
 
         btnpost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +152,6 @@ public class ClickedPortfolio extends AppCompatActivity {
         namepost.setText(uploadername);
         nispost.setText(uploadernis);
         Glide.with(this).load(imageurl).into(portimgpost);
-//        Picasso.get().load(imageurl).into(portimgpost);
     }
 
 }

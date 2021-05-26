@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,7 +77,7 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         btnpost = findViewById(R.id.btnpost);
         btnmaterial = findViewById(R.id.btnmaterial);
         recyclerView = findViewById(R.id.recyclerview);
-        RequestManager manager = Glide.with(btn_Profile);
+        RequestManager manager = GlideApp.with(btn_Profile);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -94,7 +95,7 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
-                manager.load(documentSnapshot.getString("Profilepict")).into(btn_Profile);
+                manager.load(documentSnapshot.getString("Profilepict")).thumbnail( 0.1f ).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).skipMemoryCache(true).into(btn_Profile);
             }
         });
 

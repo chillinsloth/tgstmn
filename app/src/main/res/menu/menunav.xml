@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/btnmaterial"
-        android:icon="@drawable/materials"
+        android:icon="@drawable/btnmaterinew"
         android:title="" />
 
 <!--    <item android:id="@+id/btnpost"-->
@@ -9,6 +9,6 @@
 <!--        android:title="" />-->
 
     <item android:id="@+id/btnportfolio"
-        android:icon="@drawable/portfolios"
+        android:icon="@drawable/btnportnew"
         android:title="" />
 </menu>

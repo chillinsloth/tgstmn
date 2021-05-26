@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -30,7 +31,7 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
 
     @Override
     protected void onBindViewHolder(@NonNull PortfoliosViewHolder holder, int position, @NonNull PortfolioModel model) {
-        Glide.with(holder.itemView.getContext()).load(model.getPortfolioUrl()).into(holder.singleport);
+        GlideApp.with(holder.itemView.getContext()).load(model.getPortfolioUrl()).thumbnail( 0.1f ).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).skipMemoryCache(true).into(holder.singleport);
 //                holder.uploadername.setText(model.getFullname());
     }
 
