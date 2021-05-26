@@ -8,6 +8,7 @@
     tools:context=".ClickedMaterial">
 
     <RelativeLayout
+        android:id="@+id/top_menu"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:padding="10dp">
@@ -24,7 +25,7 @@
             android:id="@+id/btnprofile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/profilemaleimg"
+            android:src="@drawable/profilemale"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"/>
         <TextView
@@ -50,6 +51,131 @@
             android:includeFontPadding="false" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_border"
+        android:padding="8dp">
 
+        <TextView
+            android:id="@+id/searchtext"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="20dp"
+            android:layout_above="@+id/bot_nav"
+            android:padding="10dp">
+            <VideoView
+                android:id="@+id/display_vid"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:backgroundTint="@color/gray" />
+            <RelativeLayout
+                android:id="@+id/info_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light"
+                android:layout_below="@+id/display_vid">
+
+                <TextView
+                    android:id="@+id/mattitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/vidtitle"
+                    android:textSize="16sp"
+                    android:textColor="@color/dark"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false" />
+                <TextView
+                    android:id="@+id/uploadername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mattitle"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/name"
+                    android:textSize="12sp"
+                    android:textColor="@color/medium"
+                    android:includeFontPadding="false" />
+                <TextView
+                    android:id="@+id/deskripsi"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_white"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/deskripsi"
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"/>
+                <TextView
+                    android:id="@+id/download"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_white"
+                    android:layout_below="@+id/deskripsi"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/download"
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bot_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/btnmaterial"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_toStartOf="@+id/btnpost"
+                android:src="@drawable/btnmaterinew"/>
+            <ImageView
+                android:id="@+id/btnpost"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/btnuploadnew"/>
+            <ImageView
+                android:id="@+id/btnportfolio"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_toEndOf="@+id/btnpost"
+                android:src="@drawable/btnportnew"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

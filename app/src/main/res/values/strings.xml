@@ -17,4 +17,6 @@
     <string name="titleport">Title</string>
     <string name="porttitle">Portfolio Title</string>
     <string name="watch">Watch</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="download">Download</string>
 </resources>

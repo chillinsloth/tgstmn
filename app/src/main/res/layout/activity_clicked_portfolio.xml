@@ -50,23 +50,24 @@
 <!--            android:includeFontPadding="false" />-->
     </RelativeLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="25dp"-->
-<!--        android:padding="8dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:id="@+id/tab_bar">-->
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_border"
+        android:padding="8dp">
 
-<!--        <TableLayout-->
-<!--            android:id="@+id/searchtext"-->
-<!--            android:layout_width="300dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/white"-->
-<!--            android:textColor="@android:color/black"-->
-<!--            android:textSize="12sp" />-->
-<!--    </LinearLayout>-->
+        <TextView
+            android:id="@+id/searchtext"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -131,7 +132,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_fullname"
+                    android:src="@drawable/selector_btn_like"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
@@ -147,7 +148,7 @@
                     android:id="@+id/btnshare"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_fullname"
+                    android:src="@drawable/selector_btn_share"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"/>
@@ -168,7 +169,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="20dp"
                 android:layout_toStartOf="@+id/btnpost"
-                android:background="@drawable/selector"/>
+                android:background="@drawable/btnmaterinew"/>
             <ImageView
                 android:id="@+id/btnpost"
                 android:layout_width="30dp"

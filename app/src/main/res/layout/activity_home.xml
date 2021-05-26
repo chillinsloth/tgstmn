@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/profilemaleimg"/>
+            android:src="@drawable/profilemale"/>
 
         <TextView
             android:id="@+id/profile_name"
@@ -78,7 +78,6 @@
             android:layout_marginBottom="10dp"
             android:horizontalSpacing="2dp"
             android:verticalSpacing="2dp" />
-
 
         <RelativeLayout
             android:id="@+id/bot_nav"
