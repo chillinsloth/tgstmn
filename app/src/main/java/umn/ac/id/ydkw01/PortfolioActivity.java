@@ -38,7 +38,6 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
     TextView pfullname, profilenis;
     CircleImageView btn_Profile;
     ImageView btnpost, btnmaterial;
-//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -46,30 +45,12 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
     DocumentReference reference;
     RecyclerView recyclerView;
     private FirestoreAdapter adapter;
-//    private FirestoreAdapter.OnClickedPortfolio onClickedPortfolio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portfolio);
         getSupportActionBar().hide();
-
-//        bottomNavigationView = findViewById(R.id.bot_nav);
-//        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()){
-//                    case R.id.btnmaterial:
-//                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                    case R.id.btnportfolio:
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
 
         btn_Profile = findViewById(R.id.btn_profile);
         pfullname = findViewById(R.id.profile_name);
@@ -125,7 +106,6 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
                 .setQuery(query, config, PortfolioModel.class)
                 .build();
         
-//        setOnclickListener();
         adapter = new FirestoreAdapter(options, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -133,19 +113,9 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
         recyclerView.setAdapter(adapter);
     }
 
-//    private void setOnclickListener() {
-//        onClickedPortfolio = new FirestoreAdapter.OnClickedPortfolio() {
-//            @Override
-//            public void onClick(View v, int position) {
-//                Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
-//                intent.putExtra("PortfolioUrl", (findViewById(R.id.singleport)).)
-//            }
-//        }
-//    }
-
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
-        Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
+//        Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
         Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
         intent.putExtra("Fullname", snapshot.getString("Fullname"));
         intent.putExtra("NIS", snapshot.getString("NIS"));

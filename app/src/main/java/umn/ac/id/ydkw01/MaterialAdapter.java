@@ -12,18 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class MaterialAdapter extends FirestorePagingAdapter<MaterialModel, MaterialAdapter.MaterialViewHolder> {
+    private MaterialAdapter.OnClickedMaterial onClickedMaterial;
 
-    public MaterialAdapter(@NonNull FirestorePagingOptions<MaterialModel> options) {
+    public MaterialAdapter(@NonNull FirestorePagingOptions<MaterialModel> options, OnClickedMaterial onClickedMaterial) {
         super(options);
+        this.onClickedMaterial = onClickedMaterial;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull MaterialViewHolder holder, int position, @NonNull MaterialModel model) {
         holder.mattitle.setText(model.getVideoTitle());
         holder.uploadername.setText(model.getFullname());
-
     }
 
     @NonNull
@@ -55,7 +57,7 @@ public class MaterialAdapter extends FirestorePagingAdapter<MaterialModel, Mater
         }
     }
 
-    public class MaterialViewHolder extends  RecyclerView.ViewHolder{
+    public class MaterialViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
         TextView mattitle;
         TextView uploadername;
 
@@ -64,6 +66,16 @@ public class MaterialAdapter extends FirestorePagingAdapter<MaterialModel, Mater
 
             mattitle = itemView.findViewById(R.id.mattitle);
             uploadername = itemView.findViewById(R.id.uploadername);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onClickedMaterial.onItemClick(getItem(getAdapterPosition()), getAdapterPosition());
+        }
+    }
+
+    public interface OnClickedMaterial{
+        void onItemClick(DocumentSnapshot snapshot, int position);
     }
 }

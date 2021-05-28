@@ -7,8 +7,8 @@
     <string name="btnsignin">Sign In</string>
     <string name="btnsignup">Sign Up</string>
     <string name="btnsignout">Sign Out</string>
-    <string name="gosignin">Have an Account?</string>
-    <string name="createacc">Create an Account?</string>
+    <string name="gosignin">Sudah memiliki akun?</string>
+    <string name="createacc">Pengguna baru?</string>
     <string name="btnedit">Edit Profile</string>
     <string name="btnsave">Save</string>
     <string name="btndiscard">Discard</string>

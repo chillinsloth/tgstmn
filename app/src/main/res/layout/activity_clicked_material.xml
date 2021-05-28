@@ -84,7 +84,7 @@
             <VideoView
                 android:id="@+id/display_vid"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:backgroundTint="@color/gray" />
             <RelativeLayout
                 android:id="@+id/info_bar"

@@ -30,11 +30,10 @@ import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements MaterialAdapter.OnClickedMaterial {
     TextView pfullname, profilenis;
     CircleImageView btn_Profile;
     ImageView btnpost, btnportfolio;
-//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -48,23 +47,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
-
-//        bottomNavigationView = findViewById(R.id.bot_nav);
-//        bottomNavigationView.setSelectedItemId(R.id.btnmaterial);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()){
-//                    case R.id.btnmaterial:
-//                        return true;
-//                    case R.id.btnportfolio:
-//                        startActivity(new Intent(getApplicationContext(), PortfolioActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
 
         btn_Profile = findViewById(R.id.btn_profile);
         pfullname = findViewById(R.id.profile_name);
@@ -84,13 +66,6 @@ public class HomeActivity extends AppCompatActivity {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(2).setPageSize(2)
                 .build();
-
-//        reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot snapshot) {
-//                manager.load(snapshot.getString("Profilepict")).into(btnProfile);
-//            }
-//        });
 
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -127,11 +102,19 @@ public class HomeActivity extends AppCompatActivity {
                 .setQuery(query, config, MaterialModel.class)
                 .build();
 
-//        setOnclickListener();
-        adapter = new MaterialAdapter(options);
+        adapter = new MaterialAdapter(options, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(DocumentSnapshot snapshot, int position) {
+        Intent intent = new Intent(getApplicationContext(), ClickedMaterial.class);
+        intent.putExtra("Fullname", snapshot.getString("Fullname"));
+        intent.putExtra("VideoTitle", snapshot.getString("VideoTitle"));
+        intent.putExtra("MaterialUrl", snapshot.getString("MaterialUrl"));
+        startActivity(intent);
     }
 }

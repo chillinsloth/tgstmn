@@ -35,7 +35,6 @@ public class ClickedPortfolio extends AppCompatActivity {
     CircleImageView btnProfile;
     ImageView portimgpost, btnlike, btncomment, btnshare, btnmaterial, btnportfolio, btnpost;
     ImageButton btnback;
-//    BottomNavigationView bottomNavigationView;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -48,24 +47,7 @@ public class ClickedPortfolio extends AppCompatActivity {
         setContentView(R.layout.activity_clicked_portfolio);
         getSupportActionBar().hide();
 
-//        bottomNavigationView = findViewById(R.id.botnav);
-//        bottomNavigationView.setSelectedItemId(R.id.btnportfolio);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()){
-//                    case R.id.btnmaterial:
-//                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                    case R.id.btnportfolio:
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
-
-//        btnProfile = findViewById(R.id.btnprofile);
+        btnProfile = findViewById(R.id.btnprofile);
         pfullname = findViewById(R.id.profile_name);
         profilenis = findViewById(R.id.profile_nis);
         btnmaterial = findViewById(R.id.btnmaterial);
@@ -78,7 +60,7 @@ public class ClickedPortfolio extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
         reference = fStore.collection("users").document(userID);
-//        RequestManager manager = Glide.with(btnProfile);
+        RequestManager manager = Glide.with(btnProfile);
 
         namepost = findViewById(R.id.namepost);
         nispost = findViewById(R.id.nispost);
@@ -92,7 +74,7 @@ public class ClickedPortfolio extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 pfullname.setText(documentSnapshot.getString("Fullname"));
                 profilenis.setText(documentSnapshot.getString("NIS"));
-//                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
+                manager.load(documentSnapshot.getString("Profilepict")).into(btnProfile);
             }
         });
 
@@ -110,12 +92,12 @@ public class ClickedPortfolio extends AppCompatActivity {
             }
         });
 
-//        btnProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(ClickedPortfolio.this, ProfileActivity.class));
-//            }
-//        });
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ClickedPortfolio.this, ProfileActivity.class));
+            }
+        });
 
         btnpost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,8 +116,6 @@ public class ClickedPortfolio extends AppCompatActivity {
         });
 
         getIncomingIntent();
-
-
     }
 
     private void getIncomingIntent(){

@@ -1,12 +1,10 @@
 package umn.ac.id.ydkw01;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +15,6 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, FirestoreAdapter.PortfoliosViewHolder> {
 
@@ -79,12 +75,10 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
         @Override
         public void onClick(View v) {
             onClickedPortfolio.onItemClick(getItem(getAdapterPosition()), getAdapterPosition());
-//            onClickedPortfolio.onClick(v, getAdapterPosition());
         }
     }
 
     public interface OnClickedPortfolio{
         void onItemClick(DocumentSnapshot snapshot, int position);
-//        void onClick(View v, int position);
     }
 }
