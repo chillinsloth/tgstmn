@@ -24,7 +24,7 @@
             android:id="@+id/btnprofile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/profilemaleimg"
+            android:background="@drawable/profilemaleimg"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"/>
         <TextView

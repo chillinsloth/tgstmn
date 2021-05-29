@@ -154,7 +154,6 @@ public class UploadPortfolio extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null){
             imguri = data.getData();
             Glide.with(this).load(imguri).into(postpreview);
-//            Picasso.get().load(imguri).into(postpreview);
         }
     }
 

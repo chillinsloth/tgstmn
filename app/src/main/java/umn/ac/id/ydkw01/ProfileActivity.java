@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,6 +36,8 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
+    public static final String TAG = "TAG";
+
     TextView fullname, email, nis;
     Button edtbtn;
     ImageButton btnback;
@@ -65,14 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         reference = fStore.collection("users").document(userID);
 
-//        StorageReference profRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile pict");
-//        profRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(imgp);
-//            }
-//        });
-
         edtbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +91,18 @@ public class ProfileActivity extends AppCompatActivity {
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                fullname.setText(documentSnapshot.getString("Fullname"));
-                email.setText(documentSnapshot.getString("Email"));
-                nis.setText(documentSnapshot.getString("NIS"));
-                manager.load(documentSnapshot.getString("Profilepict")).into(imgp);
+                if (error != null) {
+                    Log.d(TAG, "Listen failed.", error);
+                    return;
+                }
+                if (documentSnapshot.exists()) {
+                    fullname.setText(documentSnapshot.getString("Fullname"));
+                    email.setText(documentSnapshot.getString("Email"));
+                    nis.setText(documentSnapshot.getString("NIS"));
+                    manager.load(documentSnapshot.getString("Profilepict")).into(imgp);
+                } else {
+                    Log.d(TAG, "No such document");
+                }
             }
         });
     }

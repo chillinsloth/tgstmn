@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/profilemale"/>
+            android:background="@drawable/profilemale"/>
 
         <TextView
             android:id="@+id/profile_name"

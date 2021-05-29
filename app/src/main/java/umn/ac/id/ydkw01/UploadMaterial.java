@@ -102,7 +102,7 @@ public class UploadMaterial extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(UploadMaterial.this, HomeActivity.class);
-                i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
         });
@@ -157,7 +157,6 @@ public class UploadMaterial extends AppCompatActivity {
 
     private void UploadVideo() {
         String videoTitle = titlevid.getText().toString();
-//        String search = titlevid.getText().toString().toLowerCase();
         if (videoUri != null || !TextUtils.isEmpty(videoTitle)){
             loadingupvid.setVisibility(View.VISIBLE);
             final StorageReference storageReference = fstorage.child(user.getUid() + "/" + "Materials" + System.currentTimeMillis() + "." + getExt(videoUri));
@@ -184,10 +183,6 @@ public class UploadMaterial extends AppCompatActivity {
                         vidurl.put("VideoTitle", videoTitle);
                         vidurl.put("MaterialUrl", downloadUri.toString());
                         reference.set(vidurl, SetOptions.merge());
-//                        member.setTitle(videoTitle);
-//                        member.setVideouri(downloadUri.toString());
-//                        member.getSearch(search);
-//                        Task<Void> dref = fStore.collection("users").document(user.getUid()).set(member);
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
