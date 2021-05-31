@@ -57,7 +57,7 @@ public class UploadMaterial extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseUser user;
     String userID;
-    StorageReference fstorage;
+    FirebaseStorage fstorage;
     DocumentReference reference;
     UploadTask uploadTask;
 
@@ -72,7 +72,7 @@ public class UploadMaterial extends AppCompatActivity {
         user = fAuth.getCurrentUser();
         userID = user.getUid();
         reference = fStore.collection("users").document(userID);
-        fstorage = FirebaseStorage.getInstance().getReference("users");
+        fstorage = FirebaseStorage.getInstance();
 
         preupvid = findViewById(R.id.preupvid);
         discardvid = findViewById(R.id.discardvid);
@@ -159,7 +159,7 @@ public class UploadMaterial extends AppCompatActivity {
         String videoTitle = titlevid.getText().toString();
         if (videoUri != null || !TextUtils.isEmpty(videoTitle)){
             loadingupvid.setVisibility(View.VISIBLE);
-            final StorageReference storageReference = fstorage.child(user.getUid() + "/" + "Materials" + System.currentTimeMillis() + "." + getExt(videoUri));
+            final StorageReference storageReference = fstorage.getReference("users/" + user.getUid() + "/" + "Materials/").child(System.currentTimeMillis() + "." + getExt(videoUri));
             uploadTask = storageReference.putFile(videoUri);
 
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

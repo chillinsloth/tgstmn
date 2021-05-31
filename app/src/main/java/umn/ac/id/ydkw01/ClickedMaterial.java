@@ -1,18 +1,24 @@
 package umn.ac.id.ydkw01;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,19 +34,28 @@ public class ClickedMaterial extends AppCompatActivity {
     TextView pfullname, profilenis, mattitle, uploadername;
     ImageView btnmaterial, btnpost, btnportfolio;
     CircleImageView btnProfile;
-    VideoView display_vid;
+//    VideoView display_vid;
     ImageButton btnback;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String userID;
+    String userID, vidurl, vidtitle, viduploader;
     StorageReference storageReference;
     DocumentReference reference;
+
+    private SimpleExoPlayer player;
+    private PlayerView playerView;
+    private boolean playWhenReady = true;
+    private int currentWindow = 0;
+    private long playbackPosition =  0;
+    private PlaybackStateListener playbackStateListener;
+    private static final String TAG = ClickedMaterial.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clicked_material);
         getSupportActionBar().hide();
+        playbackStateListener = new PlaybackStateListener();
 
         btnProfile = findViewById(R.id.btnprofile);
         pfullname = findViewById(R.id.profile_name);
@@ -50,7 +65,7 @@ public class ClickedMaterial extends AppCompatActivity {
         btnpost = findViewById(R.id.btnpost);
         btnportfolio = findViewById(R.id.btnportfolio);
 
-        display_vid = findViewById(R.id.display_vid);
+        playerView = findViewById(R.id.display_vid);
         mattitle = findViewById(R.id.mattitle);
         uploadername = findViewById(R.id.uploadername);
 
@@ -107,21 +122,135 @@ public class ClickedMaterial extends AppCompatActivity {
             }
         });
 
-        getIncomingIntent();
-    }
-
-    private void getIncomingIntent(){
+//        getIncomingIntent();
         if(getIntent().hasExtra("MaterialUrl")){
-            String vidurl = getIntent().getStringExtra("MaterialUrl");
-            String vidtitle = getIntent().getStringExtra("VideoTitle");
-            String viduploader = getIntent().getStringExtra("Fullname");
+            vidurl = getIntent().getStringExtra("MaterialUrl");
+            vidtitle = getIntent().getStringExtra("VideoTitle");
+            viduploader = getIntent().getStringExtra("Fullname");
 
-            setMaterial(vidurl, vidtitle, viduploader);
+            mattitle.setText(vidtitle);
+            uploadername.setText(viduploader);
         }
     }
 
-    private void setMaterial(String vidurl, String vidtitle, String viduploader){
-        mattitle.setText(vidtitle);
-        uploadername.setText(viduploader);
+    private void initializeplayer() {
+        player = new SimpleExoPlayer.Builder(this).build();
+        playerView.setPlayer(player);
+        MediaItem mediaItem = MediaItem.fromUri(vidurl);
+        player.setMediaItem(mediaItem);
+        player.setPlayWhenReady(playWhenReady);
+        player.seekTo(currentWindow, playbackPosition);
+        player.addListener(playbackStateListener);
+        player.prepare();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(Util.SDK_INT >= 24){
+            initializeplayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if((Util.SDK_INT < 24 || player == null)){
+            initializeplayer();
+        }
+    }
+
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(Util.SDK_INT < 24){
+            releasePlayer();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(Util.SDK_INT >= 24){
+            releasePlayer();
+        }
+    }
+
+    private void releasePlayer() {
+        if(player != null){
+            playWhenReady = player.getPlayWhenReady();
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            player.removeListener(playbackStateListener);
+            player.release();
+            player = null;
+        }
+    }
+
+    private class PlaybackStateListener implements Player.Listener{
+        @Override
+        public void onPlaybackStateChanged(int state) {
+            String stateString;
+            switch (state) {
+                case ExoPlayer.STATE_IDLE:
+                    stateString = "ExoPlayer.STATE_IDLE      -";
+                    break;
+                case ExoPlayer.STATE_BUFFERING:
+                    stateString = "ExoPlayer.STATE_BUFFERING -";
+                    break;
+                case ExoPlayer.STATE_READY:
+                    stateString = "ExoPlayer.STATE_READY     -";
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    stateString = "ExoPlayer.STATE_ENDED     -";
+                    break;
+                default:
+                    stateString = "UNKNOWN_STATE             -";
+                    break;
+            }
+            Log.d(TAG, "changed state to " + stateString);
+        }
+    }
+
+
+    //    private MediaSource buildMediaSource(Uri uri){
+//        DataSource.Factory datasourcefactory = new DefaultHttpDataSource.Factory();
+//        return new ProgressiveMediaSource.Factory(datasourcefactory).createMediaSource(MediaItem.fromUri(uri));
+//    }
+//
+//    private void initializeplayer(){
+//        simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
+//        playerView.setPlayer(simpleExoPlayer);
+//        Uri uri = Uri.parse(vidurl);
+//        MediaSource mediaSource = buildMediaSource(uri);
+//        simpleExoPlayer.setPlayWhenReady(playwhenready);
+//        simpleExoPlayer.seekTo(currentWindow, playbackposition);
+//        simpleExoPlayer.prepare(mediaSource, false, false);
+//    }
+
+//    private void setupexoplayer(String uri){
+//        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this);
+//        playerView.setPlayer(simpleExoPlayer);
+//        DataSource.Factory datasourcefactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "material"));
+//        MediaSource mediaSource = new ExtractorMediaSource.Factory(datasourcefactory).createMediaSource(Uri.parse(uri));
+//        simpleExoPlayer.prepare(mediaSource);
+//        simpleExoPlayer.setPlayWhenReady(true);
+//    }
+//
+//    @Override
+//    protected void onDestroy(){
+//        super.onDestroy();
+//        simpleExoPlayer.release();
+//    }
+
 }

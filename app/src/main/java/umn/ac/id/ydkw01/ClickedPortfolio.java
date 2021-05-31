@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -40,6 +43,7 @@ public class ClickedPortfolio extends AppCompatActivity {
     String userID;
     StorageReference storageReference;
     DocumentReference reference;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class ClickedPortfolio extends AppCompatActivity {
         btnlike = findViewById(R.id.btnlike);
         btncomment = findViewById(R.id.btncomment);
         btnshare = findViewById(R.id.btnshare);
+        dialog = new Dialog(this);
 
         reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -112,6 +117,15 @@ public class ClickedPortfolio extends AppCompatActivity {
                 Intent intent = new Intent(ClickedPortfolio.this, PortfolioActivity.class);
                 intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+            }
+        });
+
+        btnshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.share_popup);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 
