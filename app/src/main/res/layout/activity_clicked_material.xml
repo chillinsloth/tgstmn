@@ -82,25 +82,34 @@
             android:layout_marginVertical="20dp"
             android:layout_above="@+id/bot_nav"
             android:padding="10dp">
-<!--            <VideoView-->
-<!--                android:id="@+id/display_vid"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                android:backgroundTint="@color/gray" />-->
 
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/display_vid"
+            <RelativeLayout
+                android:id="@+id/material_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:use_controller="true"
-                app:resize_mode="fill" />
+                android:layout_height="wrap_content">
+
+                <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/display_vid"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:use_controller="true"
+                    app:resize_mode="fill"
+                    app:show_timeout="1500"
+                    app:controller_layout_id="@layout/custom_player_control_view"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/info_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/light"
-                android:layout_below="@+id/display_vid">
+                android:layout_below="@+id/material_view">
 
                 <TextView
                     android:id="@+id/mattitle"

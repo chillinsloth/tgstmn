@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClickedPortfolio extends AppCompatActivity {
     TextView pfullname, profilenis, namepost, nispost;
-    CircleImageView btnProfile;
+    CircleImageView btnProfile, imgpostprof;
     ImageView portimgpost, btnlike, btncomment, btnshare, btnmaterial, btnportfolio, btnpost;
     ImageButton btnback;
     FirebaseAuth fAuth;
@@ -66,6 +66,7 @@ public class ClickedPortfolio extends AppCompatActivity {
         reference = fStore.collection("users").document(userID);
         RequestManager manager = Glide.with(btnProfile);
 
+        imgpostprof = findViewById(R.id.imgpostprof);
         namepost = findViewById(R.id.namepost);
         nispost = findViewById(R.id.nispost);
         portimgpost = findViewById(R.id.portimgpost);
@@ -134,15 +135,17 @@ public class ClickedPortfolio extends AppCompatActivity {
 
     private void getIncomingIntent(){
         if(getIntent().hasExtra("PortfolioUrl")){
+            String uploaderimg = getIntent().getStringExtra("Profilepict");
             String imageurl = getIntent().getStringExtra("PortfolioUrl");
             String uploadername = getIntent().getStringExtra("Fullname");
             String uploadernis = getIntent().getStringExtra("NIS");
 
-            setImage(imageurl, uploadername, uploadernis);
+            setImage(uploaderimg, imageurl, uploadername, uploadernis);
         }
     }
 
-    private void setImage(String imageurl, String uploadername, String uploadernis){
+    private void setImage(String uploaderimg, String imageurl, String uploadername, String uploadernis){
+        Glide.with(this).load(uploaderimg).into(imgpostprof);
         namepost.setText(uploadername);
         nispost.setText(uploadernis);
         Glide.with(this).load(imageurl).into(portimgpost);

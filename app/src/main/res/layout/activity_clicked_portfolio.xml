@@ -16,38 +16,40 @@
             android:id="@+id/btnback"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="20dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/btnbacknew"/>
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btnbacknew" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnprofile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/profilemaleimg"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:background="@drawable/profilemaleimg" />
+
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnprofile"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/btnprofile"
+            android:includeFontPadding="false"
             android:text="@string/name"
-            android:textSize="18sp"
-            android:includeFontPadding="false" />
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/profile_nis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnprofile"
             android:layout_below="@id/profile_name"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/btnprofile"
+            android:includeFontPadding="false"
             android:text="@string/nis"
-            android:textSize="16sp"
-            android:includeFontPadding="false" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -80,78 +82,87 @@
             android:layout_above="@+id/bot_nav"
             android:layout_marginHorizontal="8dp"
             android:layout_marginBottom="20dp">
+
             <RelativeLayout
                 android:id="@+id/portview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/red">
 
-<!--                <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                    android:id="@+id/imgpostprof"-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:src="@drawable/profilemaleimg"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_alignParentLeft="true"/>-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgpostprof"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/profilemale" />
+
                 <TextView
                     android:id="@+id/namepost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@+id/imgpostprof"
+                    android:includeFontPadding="false"
                     android:text="@string/name"
-                    android:textSize="16sp"
                     android:textColor="@color/white"
-                    android:includeFontPadding="false" />
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/nispost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/namepost"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/imgpostprof"
+                    android:includeFontPadding="false"
                     android:text="@string/nis"
-                    android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:includeFontPadding="false" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/portimgpost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/portview"
                 android:layout_above="@+id/interactbar"
-                android:background="@color/light"/>
+                android:layout_below="@+id/portview"
+                android:background="@color/light" />
+
             <RelativeLayout
                 android:id="@+id/interactbar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_alignParentBottom="true">
+
                 <ImageView
                     android:id="@+id/btnlike"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/selector_btn_like"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/selector_btn_like" />
+
                 <ImageView
                     android:id="@+id/btncomment"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_fullname"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/btnlike"
-                    android:layout_marginStart="10dp" />
+                    android:src="@drawable/ic_fullname" />
+
                 <ImageView
                     android:id="@+id/btnshare"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/selector_btn_share"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/selector_btn_share" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -160,8 +171,9 @@
             android:id="@+id/bot_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp">
+
             <ImageView
                 android:id="@+id/btnmaterial"
                 android:layout_width="30dp"
@@ -169,14 +181,16 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="20dp"
                 android:layout_toStartOf="@+id/btnpost"
-                android:background="@drawable/btnmaterinew"/>
+                android:background="@drawable/btnmaterinew" />
+
             <ImageView
                 android:id="@+id/btnpost"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/btnuploadnew"/>
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btnuploadnew" />
+
             <ImageView
                 android:id="@+id/btnportfolio"
                 android:layout_width="30dp"
@@ -184,7 +198,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="20dp"
                 android:layout_toEndOf="@+id/btnpost"
-                android:background="@drawable/btnportnewp"/>
+                android:background="@drawable/btnportnewp" />
         </RelativeLayout>
 
     </RelativeLayout>

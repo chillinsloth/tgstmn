@@ -1,22 +1,31 @@
 package umn.ac.id.ydkw01;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,17 +39,23 @@ import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.google.android.exoplayer2.Player.STATE_BUFFERING;
+import static com.google.android.exoplayer2.Player.STATE_ENDED;
+import static com.google.android.exoplayer2.Player.STATE_IDLE;
+import static com.google.android.exoplayer2.Player.STATE_READY;
+
 public class ClickedMaterial extends AppCompatActivity {
     TextView pfullname, profilenis, mattitle, uploadername;
-    ImageView btnmaterial, btnpost, btnportfolio;
+    ImageView btnmaterial, btnpost, btnportfolio, btnshare;
     CircleImageView btnProfile;
-//    VideoView display_vid;
     ImageButton btnback;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID, vidurl, vidtitle, viduploader;
     StorageReference storageReference;
     DocumentReference reference;
+    ProgressBar progressBar;
+    Dialog dialog;
 
     private SimpleExoPlayer player;
     private PlayerView playerView;
@@ -68,6 +83,9 @@ public class ClickedMaterial extends AppCompatActivity {
         playerView = findViewById(R.id.display_vid);
         mattitle = findViewById(R.id.mattitle);
         uploadername = findViewById(R.id.uploadername);
+        btnshare = findViewById(R.id.btn_share);
+        dialog = new Dialog(this);
+        progressBar = findViewById(R.id.progress_bar);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -122,7 +140,15 @@ public class ClickedMaterial extends AppCompatActivity {
             }
         });
 
-//        getIncomingIntent();
+        btnshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.share_popup);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
         if(getIntent().hasExtra("MaterialUrl")){
             vidurl = getIntent().getStringExtra("MaterialUrl");
             vidtitle = getIntent().getStringExtra("VideoTitle");
@@ -202,16 +228,18 @@ public class ClickedMaterial extends AppCompatActivity {
         public void onPlaybackStateChanged(int state) {
             String stateString;
             switch (state) {
-                case ExoPlayer.STATE_IDLE:
+                case STATE_IDLE:
                     stateString = "ExoPlayer.STATE_IDLE      -";
                     break;
-                case ExoPlayer.STATE_BUFFERING:
+                case STATE_BUFFERING:
                     stateString = "ExoPlayer.STATE_BUFFERING -";
+                    progressBar.setVisibility(View.VISIBLE);
                     break;
-                case ExoPlayer.STATE_READY:
+                case STATE_READY:
                     stateString = "ExoPlayer.STATE_READY     -";
+                    progressBar.setVisibility(View.GONE);
                     break;
-                case ExoPlayer.STATE_ENDED:
+                case STATE_ENDED:
                     stateString = "ExoPlayer.STATE_ENDED     -";
                     break;
                 default:
@@ -221,36 +249,5 @@ public class ClickedMaterial extends AppCompatActivity {
             Log.d(TAG, "changed state to " + stateString);
         }
     }
-
-
-    //    private MediaSource buildMediaSource(Uri uri){
-//        DataSource.Factory datasourcefactory = new DefaultHttpDataSource.Factory();
-//        return new ProgressiveMediaSource.Factory(datasourcefactory).createMediaSource(MediaItem.fromUri(uri));
-//    }
-//
-//    private void initializeplayer(){
-//        simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
-//        playerView.setPlayer(simpleExoPlayer);
-//        Uri uri = Uri.parse(vidurl);
-//        MediaSource mediaSource = buildMediaSource(uri);
-//        simpleExoPlayer.setPlayWhenReady(playwhenready);
-//        simpleExoPlayer.seekTo(currentWindow, playbackposition);
-//        simpleExoPlayer.prepare(mediaSource, false, false);
-//    }
-
-//    private void setupexoplayer(String uri){
-//        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this);
-//        playerView.setPlayer(simpleExoPlayer);
-//        DataSource.Factory datasourcefactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "material"));
-//        MediaSource mediaSource = new ExtractorMediaSource.Factory(datasourcefactory).createMediaSource(Uri.parse(uri));
-//        simpleExoPlayer.prepare(mediaSource);
-//        simpleExoPlayer.setPlayWhenReady(true);
-//    }
-//
-//    @Override
-//    protected void onDestroy(){
-//        super.onDestroy();
-//        simpleExoPlayer.release();
-//    }
 
 }

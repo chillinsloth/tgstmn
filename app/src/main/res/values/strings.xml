@@ -22,4 +22,5 @@
     <string name="share">Share</string>
     <string name="copy">Copy</string>
     <string name="link">www.link.co.id</string>
+    <string name="slash">/</string>
 </resources>

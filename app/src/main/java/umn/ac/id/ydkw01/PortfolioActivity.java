@@ -115,8 +115,8 @@ public class PortfolioActivity extends AppCompatActivity implements FirestoreAda
 
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
-//        Log.d("Item Clicked", "clicked" + position + "ID : " + snapshot.getId());
         Intent intent = new Intent(getApplicationContext(), ClickedPortfolio.class);
+        intent.putExtra("Profilepict", snapshot.getString("Profilepict"));
         intent.putExtra("Fullname", snapshot.getString("Fullname"));
         intent.putExtra("NIS", snapshot.getString("NIS"));
         intent.putExtra("PortfolioUrl", snapshot.getString("PortfolioUrl"));
