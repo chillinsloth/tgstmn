@@ -234,7 +234,7 @@ public class EditProfile extends AppCompatActivity {
                             Toast.makeText(EditProfile.this, "Upload Successfully", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-//                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         } else {
                             Toast.makeText(EditProfile.this, "Profile Picture Update failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

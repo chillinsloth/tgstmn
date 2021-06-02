@@ -28,7 +28,6 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
     @Override
     protected void onBindViewHolder(@NonNull PortfoliosViewHolder holder, int position, @NonNull PortfolioModel model) {
         GlideApp.with(holder.itemView.getContext()).load(model.getPortfolioUrl()).thumbnail( 0.1f ).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).skipMemoryCache(true).into(holder.singleport);
-//                holder.uploadername.setText(model.getFullname());
     }
 
     @NonNull
@@ -62,13 +61,11 @@ public class FirestoreAdapter extends FirestorePagingAdapter<PortfolioModel, Fir
 
     public class PortfoliosViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView singleport;
-//        TextView uploadername;
 
         public PortfoliosViewHolder(@NonNull View itemView){
             super(itemView);
 
             singleport = itemView.findViewById(R.id.singleport);
-//            uploadername = itemView.findViewById(R.id.uploadername);
             itemView.setOnClickListener(this);
         }
 

@@ -29,6 +29,7 @@ import android.widget.VideoView;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +37,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -158,38 +160,49 @@ public class UploadMaterial extends AppCompatActivity {
     private void UploadVideo() {
         String videoTitle = titlevid.getText().toString();
         if (videoUri != null || !TextUtils.isEmpty(videoTitle)){
-            loadingupvid.setVisibility(View.VISIBLE);
             final StorageReference storageReference = fstorage.getReference("users/" + user.getUid() + "/" + "Materials/").child(System.currentTimeMillis() + "." + getExt(videoUri));
             uploadTask = storageReference.putFile(videoUri);
 
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()){
-                        throw task.getException();
-                    }
-                    return storageReference.getDownloadUrl();
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()){
+                                throw task.getException();
+                            }
+                            return storageReference.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Uri downloadUri = task.getResult();
+
+                                loadingupvid.setVisibility(View.INVISIBLE);
+                                Toast.makeText(UploadMaterial.this, "Video Uploaded", Toast.LENGTH_SHORT).show();
+
+                                Map<String,Object> vidurl = new HashMap<>();
+                                vidurl.put("VideoTitle", videoTitle);
+                                vidurl.put("MaterialUrl", downloadUri.toString());
+                                reference.set(vidurl, SetOptions.merge());
+
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }else {
+                                Toast.makeText(UploadMaterial.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                        loadingupvid.setVisibility(View.INVISIBLE);
-                        Toast.makeText(UploadMaterial.this, "Video Uploaded", Toast.LENGTH_SHORT).show();
-
-                        Map<String,Object> vidurl = new HashMap<>();
-                        vidurl.put("VideoTitle", videoTitle);
-                        vidurl.put("MaterialUrl", downloadUri.toString());
-                        reference.set(vidurl, SetOptions.merge());
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }else {
-                        Toast.makeText(UploadMaterial.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
-                    }
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    loadingupvid.setVisibility(View.VISIBLE);
+                    double progress = (100 * snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                    loadingupvid.setProgress((int) progress);
                 }
             });
         }else {

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:background="@android:color/black"
     tools:context=".FullscreenActivity">
 
-<com.google.android.exoplayer2.ui.PlayerView
-    android:id="@+id/fullscreenview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/fullscreen_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:controller_layout_id="@layout/custom_player_control_view"
+        app:resize_mode="fill"/>
 
 </FrameLayout>

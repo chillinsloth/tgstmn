@@ -7,14 +7,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.YDKW01">
-        <activity android:name=".FullscreenActivity
-		android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ClickedMaterial" />
+        <activity android:name=".FullscreenActivity"/>
+        <activity android:name=".ClickedMaterial"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ClickedPortfolio" />
         <activity android:name=".UploadPortfolio" />
         <activity android:name=".PortfolioActivity" />

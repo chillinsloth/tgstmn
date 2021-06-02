@@ -37,12 +37,4 @@ public class MaterialModel {
     public void setMaterialUrl(String materialUrl) {
         this.MaterialUrl = materialUrl;
     }
-
-//    public String getSearch() {
-//        return search;
-//    }
-//
-//    public void setSearch(String search) {
-//        this.search = search;
-//    }
 }

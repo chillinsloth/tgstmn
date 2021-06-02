@@ -51,12 +51,6 @@ public class SignupActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-//        if(fAuth.getCurrentUser() != null){
-//            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-//            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(i);
-//        }
-
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,16 +125,4 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = fAuth.getCurrentUser();
-//        if(currentUser != null){
-//            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-//            i.addFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(i);
-//        }
-//    }
 }

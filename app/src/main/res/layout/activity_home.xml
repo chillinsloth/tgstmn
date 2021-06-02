@@ -115,12 +115,5 @@
                 android:layout_toEndOf="@+id/btnpost"
                 android:background="@drawable/btnportnew" />
         </RelativeLayout>
-
-        <!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-        <!--            android:id="@+id/bot_nav"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_alignParentBottom="true"-->
-        <!--            app:menu="@menu/menunav" />-->
     </RelativeLayout>
 </LinearLayout>

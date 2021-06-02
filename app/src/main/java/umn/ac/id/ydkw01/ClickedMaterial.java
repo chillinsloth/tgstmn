@@ -2,30 +2,29 @@ package umn.ac.id.ydkw01;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,6 +55,7 @@ public class ClickedMaterial extends AppCompatActivity {
     DocumentReference reference;
     ProgressBar progressBar;
     Dialog dialog;
+//    RelativeLayout top_menu, search_bar, info_bar, bot_nav;
 
     private SimpleExoPlayer player;
     private PlayerView playerView;
@@ -64,6 +64,7 @@ public class ClickedMaterial extends AppCompatActivity {
     private long playbackPosition =  0;
     private PlaybackStateListener playbackStateListener;
     private static final String TAG = ClickedMaterial.class.getName();
+    boolean fullscreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,11 @@ public class ClickedMaterial extends AppCompatActivity {
         setContentView(R.layout.activity_clicked_material);
         getSupportActionBar().hide();
         playbackStateListener = new PlaybackStateListener();
+
+//        top_menu = findViewById(R.id.top_menu);
+//        search_bar = findViewById(R.id.search_bar);
+//        info_bar = findViewById(R.id.info_bar);
+//        bot_nav = findViewById(R.id.bot_nav);
 
         btnProfile = findViewById(R.id.btnprofile);
         pfullname = findViewById(R.id.profile_name);
@@ -84,7 +90,7 @@ public class ClickedMaterial extends AppCompatActivity {
         mattitle = findViewById(R.id.mattitle);
         uploadername = findViewById(R.id.uploadername);
         btnshare = findViewById(R.id.btn_share);
-	btnfullscreen = findViewById(R.id.exo_fullscreen);
+	    btnfullscreen = playerView.findViewById(R.id.exo_fullscreen);
         dialog = new Dialog(this);
         progressBar = findViewById(R.id.progress_bar);
 
@@ -150,10 +156,42 @@ public class ClickedMaterial extends AppCompatActivity {
             }
         });
 
-	btnfullscreen.setOnClickListener(new View.OnClickListener() {
+	    btnfullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ClickedMaterial.this, FullscreenActivity.class));
+                if(fullscreen){
+                    btnfullscreen.setImageDrawable(ContextCompat.getDrawable(ClickedMaterial.this, R.drawable.btnfullscreen));
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) playerView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    params.height = (int) ( 200 * getApplicationContext().getResources().getDisplayMetrics().density);
+                    playerView.setLayoutParams(params);
+                    fullscreen = false;
+//                    top_menu.setVisibility(View.INVISIBLE);
+//                    search_bar.setVisibility(View.INVISIBLE);
+//                    info_bar.setVisibility(View.INVISIBLE);
+//                    bot_nav.setVisibility(View.INVISIBLE);
+                }else{
+                    btnfullscreen.setImageDrawable(ContextCompat.getDrawable(ClickedMaterial.this, R.drawable.btnfullscreenp));
+//                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+//                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) playerView.getLayoutParams();
+//                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+//                    params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+//                    playerView.setLayoutParams(params);
+                    fullscreen = true;
+//                    top_menu.setVisibility(View.INVISIBLE);
+//                    search_bar.setVisibility(View.INVISIBLE);
+//                    info_bar.setVisibility(View.INVISIBLE);
+//                    bot_nav.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -189,7 +227,6 @@ public class ClickedMaterial extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        
         if((Util.SDK_INT < 24 || player == null)){
             initializeplayer();
             hideSystemUi();
@@ -258,5 +295,4 @@ public class ClickedMaterial extends AppCompatActivity {
             Log.d(TAG, "changed state to " + stateString);
         }
     }
-
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
     android:orientation="vertical"
     tools:context=".ClickedMaterial">
@@ -18,46 +18,50 @@
             android:id="@+id/btnback"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="20dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/btnbacknew"/>
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btnbacknew" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnprofile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/profilemale"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:background="@drawable/profilemale" />
+
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnprofile"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/btnprofile"
+            android:includeFontPadding="false"
             android:text="@string/name"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:includeFontPadding="false" />
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/profile_nis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnprofile"
             android:layout_below="@id/profile_name"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/btnprofile"
+            android:includeFontPadding="false"
             android:text="@string/nis"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            android:includeFontPadding="false" />
+            android:textSize="15sp" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/search_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/top_menu"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:background="@drawable/round_border"
@@ -71,131 +75,125 @@
             android:textColor="@android:color/black"
             android:textSize="10sp"
             tools:ignore="SmallSp" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="20dp"
-            android:layout_above="@+id/bot_nav"
-            android:padding="10dp">
-
-            <RelativeLayout
-                android:id="@+id/material_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.exoplayer2.ui.PlayerView
-                    android:id="@+id/display_vid"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:use_controller="true"
-                    app:resize_mode="fill"
-                    app:show_timeout="1500"
-                    app:controller_layout_id="@layout/custom_player_control_view"/>
-
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/info_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/light"
-                android:layout_below="@+id/material_view">
-
-                <TextView
-                    android:id="@+id/mattitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/vidtitle"
-                    android:textSize="16sp"
-                    android:textColor="@color/dark"
-                    android:textStyle="bold"
-                    android:includeFontPadding="false" />
-                <TextView
-                    android:id="@+id/uploadername"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/mattitle"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/name"
-                    android:textSize="12sp"
-                    android:textColor="@color/medium"
-                    android:includeFontPadding="false" />
-                <TextView
-                    android:id="@+id/deskripsi"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_white"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/deskripsi"
-                    android:textSize="13sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"/>
-                <TextView
-                    android:id="@+id/download"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_white"
-                    android:layout_below="@+id/deskripsi"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/download"
-                    android:textSize="13sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"/>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/bot_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentBottom="true">
-            <ImageView
-                android:id="@+id/btnmaterial"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_toStartOf="@+id/btnpost"
-                android:src="@drawable/btnmaterinewp"/>
-            <ImageView
-                android:id="@+id/btnpost"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btnuploadnew"/>
-            <ImageView
-                android:id="@+id/btnportfolio"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_toEndOf="@+id/btnpost"
-                android:src="@drawable/btnportnew"/>
-        </RelativeLayout>
-
     </RelativeLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/material_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/search_bar">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/display_vid"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            app:controller_layout_id="@layout/custom_player_control_view"
+            app:resize_mode="fill"
+            app:show_timeout="1500" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/info_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/material_view"
+        android:background="@color/light"
+        android:layout_marginHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/mattitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="false"
+            android:text="@string/vidtitle"
+            android:textColor="@color/dark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/uploadername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mattitle"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:includeFontPadding="false"
+            android:text="@string/name"
+            android:textColor="@color/medium"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/deskripsi"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_white"
+            android:text="@string/deskripsi"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/download"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/deskripsi"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/border_white"
+            android:text="@string/download"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bot_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/btnmaterial"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toStartOf="@+id/btnpost"
+            android:src="@drawable/btnmaterinewp" />
+
+        <ImageView
+            android:id="@+id/btnpost"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/btnuploadnew" />
+
+        <ImageView
+            android:id="@+id/btnportfolio"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toEndOf="@+id/btnpost"
+            android:src="@drawable/btnportnew" />
+    </RelativeLayout>
+
+</RelativeLayout>

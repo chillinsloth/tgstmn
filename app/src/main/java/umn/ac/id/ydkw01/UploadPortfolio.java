@@ -202,6 +202,8 @@ public class UploadPortfolio extends AppCompatActivity {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 loadingpost.setVisibility(View.VISIBLE);
+                double progress = (100 * snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                loadingpost.setProgress((int) progress);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
