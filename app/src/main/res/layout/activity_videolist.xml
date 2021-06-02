@@ -6,7 +6,6 @@
     android:layout_marginHorizontal="20dp"
     android:layout_marginVertical="12dp"
     android:elevation="5dp"
-    android:outlineAmbientShadowColor="@color/light"
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="false">
 

@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_bg"
+    android:background="@drawable/bg"
     tools:context=".EditProfile">
 
     <ImageButton
         android:id="@+id/btnback"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="20dp"
         android:background="@drawable/btnbacknew"/>
 
@@ -47,7 +47,8 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:inputType="textPersonName"/>
             </LinearLayout>
 
             <LinearLayout
@@ -68,7 +69,8 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:inputType="textEmailAddress"/>
             </LinearLayout>
 
             <LinearLayout

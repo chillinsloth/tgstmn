@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_bg"
+    android:background="@drawable/bg"
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
@@ -19,7 +18,7 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/profilemale"/>
+            android:background="@drawable/profilemale" />
 
         <TextView
             android:id="@+id/profile_name"
@@ -30,6 +29,7 @@
             android:layout_toStartOf="@id/btn_profile"
             android:includeFontPadding="false"
             android:text="@string/name"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
@@ -42,7 +42,8 @@
             android:layout_toStartOf="@id/btn_profile"
             android:includeFontPadding="false"
             android:text="@string/nis"
-            android:textSize="16sp" />
+            android:textColor="@color/white"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -84,6 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
+
             <ImageView
                 android:id="@+id/btnmaterial"
                 android:layout_width="30dp"
@@ -111,14 +113,14 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginStart="30dp"
                 android:layout_toEndOf="@+id/btnpost"
-                android:background="@drawable/btnportnew"/>
+                android:background="@drawable/btnportnew" />
         </RelativeLayout>
 
-<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/bot_nav"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            app:menu="@menu/menunav" />-->
+        <!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+        <!--            android:id="@+id/bot_nav"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            app:menu="@menu/menunav" />-->
     </RelativeLayout>
 </LinearLayout>

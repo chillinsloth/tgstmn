@@ -46,7 +46,7 @@ import static com.google.android.exoplayer2.Player.STATE_READY;
 
 public class ClickedMaterial extends AppCompatActivity {
     TextView pfullname, profilenis, mattitle, uploadername;
-    ImageView btnmaterial, btnpost, btnportfolio, btnshare;
+    ImageView btnmaterial, btnpost, btnportfolio, btnshare, btnfullscreen;
     CircleImageView btnProfile;
     ImageButton btnback;
     FirebaseAuth fAuth;
@@ -84,6 +84,7 @@ public class ClickedMaterial extends AppCompatActivity {
         mattitle = findViewById(R.id.mattitle);
         uploadername = findViewById(R.id.uploadername);
         btnshare = findViewById(R.id.btn_share);
+	btnfullscreen = findViewById(R.id.exo_fullscreen);
         dialog = new Dialog(this);
         progressBar = findViewById(R.id.progress_bar);
 
@@ -149,6 +150,13 @@ public class ClickedMaterial extends AppCompatActivity {
             }
         });
 
+	btnfullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ClickedMaterial.this, FullscreenActivity.class));
+            }
+        });
+
         if(getIntent().hasExtra("MaterialUrl")){
             vidurl = getIntent().getStringExtra("MaterialUrl");
             vidtitle = getIntent().getStringExtra("VideoTitle");
@@ -181,9 +189,10 @@ public class ClickedMaterial extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        hideSystemUi();
+        
         if((Util.SDK_INT < 24 || player == null)){
             initializeplayer();
+            hideSystemUi();
         }
     }
 

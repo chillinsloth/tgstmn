@@ -3,26 +3,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    android:padding="2dp"
-    android:elevation="3dp">
+    android:elevation="3dp"
+    android:padding="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/singleport"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:background="@color/gray" />
-<!--        <TextView-->
-<!--            android:id="@+id/uploadername"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="2dp"-->
-<!--            android:text="@string/name"-->
-<!--            android:layout_below="@+id/singleport"-->
-<!--            android:layout_alignParentRight="true"/>-->
+            android:background="@color/gray"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
