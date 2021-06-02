@@ -4,7 +4,6 @@ public class MaterialModel {
     private String Fullname;
     private String VideoTitle;
     private String MaterialUrl;
-//    private String search;
 
     public MaterialModel(){}
 
